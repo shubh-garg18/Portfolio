@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# shubh-garg18 · portfolio
 
-## Getting Started
+Personal portfolio for **Shubh Garg** — backend / low-latency systems engineer, IIT Roorkee '27.
+Single-page site with a **CRT terminal** aesthetic: boot sequence, scanlines, phosphor glow,
+custom thin-stroke SVG icons.
 
-First, run the development server:
+→ Live: https://shubh-garg18.vercel.app
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Stack
+
+- **Next.js 16** (App Router, Turbopack) · **React 19** · **TypeScript**
+- **Tailwind CSS v4** + CSS custom-property design tokens
+- **Framer Motion** — entrance/stagger, tagline rotator, project-filter transitions
+- **Vercel Analytics**
+- Fonts: JetBrains Mono + Inter via `next/font`
+
+## Structure
+
+```
+src/
+├── app/                 layout (fonts, metadata, analytics), page, globals.css, icon.svg
+├── components/
+│   ├── effects/         CRTOverlay, BootSequence
+│   ├── layout/          Navbar (scroll-spy), Footer
+│   ├── sections/        Hero, About, Experience, Projects, Skills, CPStats, Achievements, Contact
+│   └── ui/              icons (custom SVG set), GlowCard, TerminalBadge, SectionLabel,
+│                        BlinkingCursor, SocialLinks, Reveal
+├── data/content.ts      single source of truth — all copy, links, projects, skills
+└── lib/utils.ts         cn(), cfTier(), sparklinePoints()
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+All copy and links live in `src/data/content.ts` — edit there, not in components.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Live data
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+`CPStats` fetches the **Codeforces** public API on mount
+(`user.info` + `user.rating` for `Bitwise_Garg`) and renders an SVG rating
+sparkline + recent contests, with a skeleton loader and a graceful fallback.
+LeetCode has no reliable public rating API, so that value is static + linked to profile.
 
-## Learn More
+## Develop
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build (fully static)
+npm run lint
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy (Vercel)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Push to `main` and connect the repo at vercel.com (auto-deploy), or `vercel --prod`.
+No environment variables required — all APIs are public.
 
-## Deploy on Vercel
+## To supply
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [ ] **`public/Shubh_Garg_Resume.pdf`** — the "Download Resume" button already links to
+      `/Shubh_Garg_Resume.pdf`; drop the file in `public/` to activate it.

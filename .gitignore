@@ -24,6 +24,12 @@
 .DS_Store
 *.pem
 
+# WSL / Windows download artifacts
+*:Zone.Identifier
+
+# local helper scripts
+/commit.sh
+
 # debug
 npm-debug.log*
 yarn-debug.log*
