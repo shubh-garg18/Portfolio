@@ -4,7 +4,7 @@ Personal portfolio for **Shubh Garg** — backend / low-latency systems engineer
 Single-page site with a **CRT terminal** aesthetic: boot sequence, scanlines, phosphor glow,
 custom thin-stroke SVG icons.
 
-→ Live: https://shubh-garg18.vercel.app
+→ Live: [Portfolio](https://bitwise-rouge.vercel.app/)
 
 ## Stack
 
