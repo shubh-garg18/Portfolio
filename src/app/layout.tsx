@@ -25,7 +25,7 @@ const description =
   "IIT Roorkee '27. Backend engineer focused on low-latency systems, matching engines, and agentic AI. Interning at AutoCash.ai.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://shubh-garg18.vercel.app"),
+  metadataBase: new URL("https://bitwise-rouge.vercel.app"),
   title: tabTitle,
   description,
   keywords: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     title: shareTitle,
     description,
     type: "website",
-    url: "https://shubh-garg18.vercel.app",
+    url: "https://bitwise-rouge.vercel.app",
     images: [{ url: personal.avatar, width: 460, height: 460, alt: personal.name }],
   },
   twitter: { card: "summary", title: shareTitle, description, images: [personal.avatar] },
