@@ -30,6 +30,11 @@
 # local helper scripts
 /commit.sh
 
+# agent / assistant config
+CLAUDE.md
+AGENTS.md
+.claude/
+
 # debug
 npm-debug.log*
 yarn-debug.log*
