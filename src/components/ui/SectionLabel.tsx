@@ -15,7 +15,7 @@ export function SectionLabel({ children, meta, className }: Props) {
     const [lead, ...rest] = meta.split(" ");
     const numeric = /^\d/.test(lead);
     badge = (
-      <span className="shrink-0 rounded border border-[var(--border)] bg-[var(--panel)] px-2 py-0.5 font-mono text-[11px] text-[var(--muted)]">
+      <span className="shrink-0 rounded border border-[var(--border)] bg-[var(--panel)] px-2 py-0.5 font-mono text-[14px] text-[var(--muted)]">
         {numeric ? (
           <>
             <span className="text-[var(--amber)]">{lead}</span>

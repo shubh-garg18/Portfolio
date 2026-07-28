@@ -7,7 +7,7 @@ export function About() {
   const paragraphs = about.body.split("\n\n");
 
   return (
-    <section id="about" className="mx-auto max-w-5xl scroll-mt-16 px-5 py-20">
+    <section id="about" className="mx-auto max-w-5xl px-5 py-20">
       <SectionLabel meta="01 profile">about.me</SectionLabel>
 
       <div className="grid items-center gap-10 md:grid-cols-[1.25fr_1fr]">

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { nav, system } from "@/data/content";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import { CrtToggle } from "@/components/ui/CrtToggle";
 import { cn } from "@/lib/utils";
 
 /** tmux/i3-style top bar: numbered workspaces (nav), session id, clock, theme. */
@@ -10,10 +11,11 @@ export function StatusBar() {
   const [active, setActive] = useState<string>(nav[0].id);
   const [clock, setClock] = useState<string>("");
 
-  // scroll-spy
+  // scroll-spy — #top (hero) counts as the first workspace so the
+  // highlight resets when navigating back to the top
   useEffect(() => {
-    const sections = nav
-      .map((n) => document.getElementById(n.id))
+    const sections = ["top", ...nav.map((n) => n.id)]
+      .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
 
     const observer = new IntersectionObserver(
@@ -21,7 +23,10 @@ export function StatusBar() {
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible[0]) setActive(visible[0].target.id);
+        if (visible[0]) {
+          const id = visible[0].target.id;
+          setActive(id === "top" ? nav[0].id : id);
+        }
       },
       { rootMargin: "-45% 0px -50% 0px", threshold: [0, 0.25, 0.5, 1] },
     );
@@ -50,7 +55,7 @@ export function StatusBar() {
         {/* session id */}
         <a
           href="#top"
-          className="hidden shrink-0 items-center font-mono text-xs text-[var(--text-2)] sm:flex"
+          className="hidden shrink-0 items-center font-mono text-[15px] text-[var(--text-2)] sm:flex"
         >
           <span className="text-[var(--mint)]">{system.user}</span>
           <span className="text-[var(--muted)]">@{system.host}</span>
@@ -64,8 +69,9 @@ export function StatusBar() {
               <a
                 key={n.id}
                 href={`#${n.id}`}
+                aria-current={on ? "true" : undefined}
                 className={cn(
-                  "shrink-0 rounded px-2 py-1 font-mono text-xs transition-colors",
+                  "shrink-0 rounded px-2 py-1 font-mono text-[15px] transition-colors",
                   on
                     ? "bg-[var(--amber)] text-[var(--bg)]"
                     : "text-[var(--text-2)] hover:bg-[var(--panel-2)] hover:text-[var(--text)]",
@@ -80,8 +86,14 @@ export function StatusBar() {
           })}
         </nav>
 
+        {/* display controls sit apart from the workspaces */}
+        <span
+          aria-hidden="true"
+          className="h-5 w-px shrink-0 bg-[var(--border-strong)]"
+        />
         <ThemeToggle className="shrink-0" />
-        <span className="hidden shrink-0 font-mono text-xs tabular-nums text-[var(--muted)] sm:inline">
+        <CrtToggle className="shrink-0" />
+        <span className="hidden shrink-0 font-mono text-[15px] tabular-nums text-[var(--muted)] sm:inline">
           {clock || "--:--:--"}
         </span>
       </div>

@@ -4,7 +4,7 @@ import { Reveal } from "@/components/ui/Reveal";
 
 export function Skills() {
   return (
-    <section id="skills" className="mx-auto max-w-5xl scroll-mt-16 px-5 py-20">
+    <section id="skills" className="mx-auto max-w-5xl px-5 py-20">
       <SectionLabel meta={`${String(skills.length).padStart(2, "0")} stacks`}>
         skills
       </SectionLabel>
@@ -15,7 +15,7 @@ export function Skills() {
           return (
             <Reveal key={cat.label} delay={(i % 3) * 0.06}>
               <div className="panel panel-hover h-full p-5">
-                <h3 className="mb-3 font-mono text-xs uppercase tracking-wider text-[var(--muted)]">
+                <h3 className="mb-3 font-mono text-[15px] uppercase tracking-wider text-[var(--muted)]">
                   <span style={{ color: `var(${catAccent})` }}>#</span>{" "}
                   {cat.label}
                 </h3>

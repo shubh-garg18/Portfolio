@@ -1,5 +1,6 @@
 import { WindowChrome } from "@/components/ui/WindowChrome";
-import { profile, system } from "@/data/content";
+import { personal, profile, system, type AccentVar } from "@/data/content";
+import pkg from "../../../package.json";
 
 const SWATCHES = ["--coral", "--amber", "--mint", "--cyan", "--indigo"] as const;
 
@@ -31,6 +32,22 @@ function Emblem() {
   );
 }
 
+// Real system facts, computed at build/revalidate — not set dressing.
+const uptimeDays = Math.max(
+  0,
+  Math.floor(
+    (Date.now() - new Date(personal.firstDeploy).getTime()) / 86_400_000,
+  ),
+);
+const pkgCount =
+  Object.keys(pkg.dependencies).length + Object.keys(pkg.devDependencies).length;
+const liveRows: { k: string; v: string; c: AccentVar }[] = [
+  { k: "kernel", v: `next ${pkg.dependencies.next}`, c: "--cyan" },
+  { k: "uptime", v: `${uptimeDays} days`, c: "--mint" },
+  { k: "pkgs", v: `${pkgCount} (npm)`, c: "--indigo" },
+];
+const rows = [...profile.slice(0, 2), ...liveRows, ...profile.slice(2)];
+
 export function Neofetch() {
   return (
     <WindowChrome title="neofetch" accent="--amber" bodyClassName="p-5 sm:p-6">
@@ -50,7 +67,7 @@ export function Neofetch() {
 
           {/* spec rows */}
           <dl className="space-y-[3px]">
-            {profile.map((row) => (
+            {rows.map((row) => (
               <div key={row.k} className="flex gap-2">
                 <dt className="w-14 shrink-0" style={{ color: `var(${row.c})` }}>
                   {row.k}

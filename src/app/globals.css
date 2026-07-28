@@ -1,11 +1,20 @@
 @import "tailwindcss";
 
 /* ============================================================
-   THEME TOKENS — "workstation": warm charcoal (dark) + paper (light)
-   Switched via [data-theme] on <html>.
+   COLORSCHEMES — riced like a real setup: one token set per
+   scheme, switched via [data-theme] on <html> (`:theme <name>`).
+   Accent slots keep their semantic jobs across schemes:
+   --amber  primary / prompts      --coral  C++ / asks / danger
+   --mint   Python / bids / ok     --indigo TS / links
+   --cyan   systems / protocol
+   All text-bearing tokens hold WCAG AA (4.5:1) on bg and panel;
+   validated in scripts — keep it that way when adding schemes.
    ============================================================ */
+
+/* workstation (default) — warm charcoal + phosphor amber */
 :root,
-[data-theme="dark"] {
+[data-theme="workstation"] {
+  color-scheme: dark;
   --bg: #17161d;
   --bg-grid: rgba(255, 255, 255, 0.022);
   --panel: #201e29;
@@ -15,20 +24,21 @@
   --border-strong: #3d3a4b;
   --text: #ece9e2;
   --text-2: #b7b2c2;
-  --muted: #7b7689;
+  --muted: #8a8599;
 
-  --amber: #ffb454; /* primary brand — phosphor amber */
-  --coral: #ff6b6b; /* C++ / asks / danger */
-  --mint: #57d9a3; /* Python / bids / success */
-  --indigo: #8c9aff; /* TypeScript / links */
-  --cyan: #5cc6dd; /* systems / protocol */
+  --amber: #ffb454;
+  --coral: #ff6b6b;
+  --mint: #57d9a3;
+  --indigo: #8c9aff;
+  --cyan: #5cc6dd;
 
   --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.35);
   --shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 4px 10px rgba(0, 0, 0, 0.35);
-  --selection: rgba(255, 180, 84, 0.28);
 }
 
-[data-theme="light"] {
+/* paper — the light scheme */
+[data-theme="paper"] {
+  color-scheme: light;
   --bg: #ece9e1;
   --bg-grid: rgba(40, 30, 20, 0.04);
   --panel: #f6f3ec;
@@ -38,17 +48,156 @@
   --border-strong: #c5bfac;
   --text: #2b2935;
   --text-2: #55505f;
-  --muted: #8b8676;
+  --muted: #6b6659;
 
-  --amber: #bd7008;
-  --coral: #d6443e;
-  --mint: #1d9468;
+  --amber: #8f5606;
+  --coral: #c03530;
+  --mint: #14724e;
   --indigo: #5750dd;
-  --cyan: #1d83a0;
+  --cyan: #17708a;
 
   --shadow-sm: 0 2px 5px rgba(60, 48, 30, 0.08);
   --shadow: 0 14px 30px rgba(60, 48, 30, 0.12), 0 3px 8px rgba(60, 48, 30, 0.08);
-  --selection: rgba(189, 112, 8, 0.22);
+}
+
+[data-theme="gruvbox"] {
+  color-scheme: dark;
+  --bg: #1d2021;
+  --bg-grid: rgba(235, 219, 178, 0.03);
+  --panel: #282828;
+  --panel-2: #32302f;
+  --inset: #1b1e1f;
+  --border: #3c3836;
+  --border-strong: #504945;
+  --text: #ebdbb2;
+  --text-2: #bdae93;
+  --muted: #a89984;
+
+  --amber: #fabd2f;
+  --coral: #fd6b57;
+  --mint: #b8bb26;
+  --indigo: #83a598;
+  --cyan: #8ec07c;
+}
+
+[data-theme="catppuccin"] {
+  color-scheme: dark;
+  --bg: #1e1e2e;
+  --bg-grid: rgba(205, 214, 244, 0.028);
+  --panel: #252539;
+  --panel-2: #2a2a40;
+  --inset: #181825;
+  --border: #313244;
+  --border-strong: #45475a;
+  --text: #cdd6f4;
+  --text-2: #a6adc8;
+  --muted: #8f96b3;
+
+  --amber: #fab387;
+  --coral: #f38ba8;
+  --mint: #a6e3a1;
+  --indigo: #89b4fa;
+  --cyan: #89dceb;
+}
+
+[data-theme="nord"] {
+  color-scheme: dark;
+  --bg: #242933;
+  --bg-grid: rgba(236, 239, 244, 0.03);
+  --panel: #2e3440;
+  --panel-2: #353c4a;
+  --inset: #272c37;
+  --border: #3b4252;
+  --border-strong: #4c566a;
+  --text: #eceff4;
+  --text-2: #c8ceda;
+  --muted: #9aa4b8;
+
+  --amber: #ebcb8b;
+  --coral: #de8d95;
+  --mint: #a3be8c;
+  --indigo: #81a1c1;
+  --cyan: #88c0d0;
+}
+
+[data-theme="rose-pine"] {
+  color-scheme: dark;
+  --bg: #191724;
+  --bg-grid: rgba(224, 222, 244, 0.028);
+  --panel: #1f1d2e;
+  --panel-2: #232132;
+  --inset: #16141f;
+  --border: #302c44;
+  --border-strong: #45415e;
+  --text: #e0def4;
+  --text-2: #b5b1cc;
+  --muted: #8f8aa8;
+
+  --amber: #f6c177;
+  --coral: #eb6f92;
+  --mint: #9ccfd8;
+  --indigo: #c4a7e7;
+  --cyan: #6fb2c1;
+}
+
+[data-theme="tokyonight"] {
+  color-scheme: dark;
+  --bg: #1a1b26;
+  --bg-grid: rgba(192, 202, 245, 0.03);
+  --panel: #1f2335;
+  --panel-2: #24283b;
+  --inset: #16161e;
+  --border: #2c3149;
+  --border-strong: #3b4261;
+  --text: #c8d3f5;
+  --text-2: #a9b1d6;
+  --muted: #8b93bd;
+
+  --amber: #e0af68;
+  --coral: #f7768e;
+  --mint: #9ece6a;
+  --indigo: #7aa2f7;
+  --cyan: #7dcfff;
+}
+
+[data-theme="kanagawa"] {
+  color-scheme: dark;
+  --bg: #1f1f28;
+  --bg-grid: rgba(220, 215, 186, 0.028);
+  --panel: #2a2a37;
+  --panel-2: #363646;
+  --inset: #16161d;
+  --border: #363646;
+  --border-strong: #54546d;
+  --text: #dcd7ba;
+  --text-2: #c8c093;
+  --muted: #a49e85;
+
+  --amber: #e6c384;
+  --coral: #ff8087;
+  --mint: #98bb6c;
+  --indigo: #7e9cd8;
+  --cyan: #7aa89f;
+}
+
+[data-theme="everforest"] {
+  color-scheme: dark;
+  --bg: #272e33;
+  --bg-grid: rgba(211, 198, 170, 0.03);
+  --panel: #2e383c;
+  --panel-2: #374145;
+  --inset: #232a2e;
+  --border: #3d484d;
+  --border-strong: #4f585e;
+  --text: #d3c6aa;
+  --text-2: #bdc3af;
+  --muted: #9aa79d;
+
+  --amber: #dbbc7f;
+  --coral: #ec8689;
+  --mint: #a7c080;
+  --indigo: #7fbbb3;
+  --cyan: #83c092;
 }
 
 @theme inline {
@@ -77,9 +226,18 @@
 
 html {
   scroll-behavior: smooth;
+  /* single source of anchor offset — sections must NOT add scroll-mt */
   scroll-padding-top: 64px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  scrollbar-color: var(--border-strong) transparent; /* Firefox */
+}
+
+/* colorscheme switches cross-fade as one frame instead of per-token snaps
+   (setTheme wraps the attribute write in a View Transition where supported) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
 }
 
 body {
@@ -96,12 +254,16 @@ body {
 }
 
 ::selection {
-  background: var(--selection);
+  background: color-mix(in srgb, var(--amber) 30%, transparent);
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+/* in @layer base so text-* utilities (utilities layer) still win —
+   unlayered rules would override them on every <a> */
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 }
 
 h1, h2, h3, h4 {
@@ -176,12 +338,25 @@ h1, h2, h3, h4 {
   padding: 0.5rem 0.75rem;
   border-radius: 8px 8px 0 0;
 }
-/* Linux square window controls */
+/* Linux square window controls — tint like a focused window on hover */
 .winctl {
   width: 12px;
   height: 12px;
   border: 1px solid var(--border-strong);
   border-radius: 2px;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.winbar:hover .winctl:nth-last-child(3) {
+  border-color: var(--mint);
+  background: color-mix(in srgb, var(--mint) 45%, transparent);
+}
+.winbar:hover .winctl:nth-last-child(2) {
+  border-color: var(--amber);
+  background: color-mix(in srgb, var(--amber) 45%, transparent);
+}
+.winbar:hover .winctl:nth-last-child(1) {
+  border-color: var(--coral);
+  background: color-mix(in srgb, var(--coral) 45%, transparent);
 }
 
 /* ============================================================
@@ -197,7 +372,7 @@ h1, h2, h3, h4 {
   border-radius: 5px;
   padding: 0.1rem 0.5rem;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.5;
 }
 
@@ -242,6 +417,79 @@ h1, h2, h3, h4 {
   50% { opacity: 0.4; }
 }
 
+/* CSS-only entrances for above-the-fold content: they run before (and
+   without) hydration, so the hero paints from the static HTML. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(16px); }
+}
+.rise {
+  animation: rise 0.5s ease both;
+  animation-delay: var(--rise-delay, 0s);
+}
+
+/* hero identity reveal — delay roughly covers the `$ whoami` typing */
+@keyframes hero-reveal {
+  from { opacity: 0; transform: translateY(4px); }
+}
+.hero-reveal {
+  animation: hero-reveal 0.45s ease 0.95s backwards;
+}
+
+/* phosphor glow — a faint monitor-bloom on key text; dark schemes only
+   (on paper it just reads as blur) */
+.text-glow {
+  text-shadow: 0 0 22px color-mix(in srgb, currentColor 30%, transparent);
+}
+[data-theme="paper"] .text-glow {
+  text-shadow: none;
+}
+
+/* ============================================================
+   CRT MODE — `:crt` easter egg. Scanlines + vignette + a slow
+   phosphor flicker, all on one fixed pseudo-element so it costs
+   a single composited layer.
+   ============================================================ */
+[data-crt="on"]::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.16) 0px,
+      rgba(0, 0, 0, 0.16) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    radial-gradient(
+      ellipse 120% 100% at 50% 50%,
+      transparent 58%,
+      rgba(0, 0, 0, 0.32) 100%
+    );
+  animation: crt-flicker 4s steps(60) infinite;
+}
+[data-theme="paper"][data-crt="on"]::after {
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(40, 30, 20, 0.08) 0px,
+      rgba(40, 30, 20, 0.08) 1px,
+      transparent 1px,
+      transparent 3px
+    ),
+    radial-gradient(
+      ellipse 120% 100% at 50% 50%,
+      transparent 58%,
+      rgba(40, 30, 20, 0.16) 100%
+    );
+}
+@keyframes crt-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.92; }
+}
+
 /* film grain — subtle premium texture over everything */
 .bg-grain {
   position: fixed;
@@ -251,7 +499,7 @@ h1, h2, h3, h4 {
   opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-[data-theme="light"] .bg-grain {
+[data-theme="paper"] .bg-grain {
   opacity: 0.03;
 }
 
@@ -267,5 +515,9 @@ h1, h2, h3, h4 {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.05ms !important;
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
   }
 }

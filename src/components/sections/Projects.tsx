@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { CSSProperties } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import { projects, type Project } from "@/data/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { TerminalBadge } from "@/components/ui/TerminalBadge";
@@ -20,7 +20,7 @@ function matches(p: Project, f: Filter): boolean {
 
 function ProjectCard({ p }: { p: Project }) {
   return (
-    <motion.article
+    <m.article
       layout
       initial={{ opacity: 0, scale: 0.97 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -32,7 +32,7 @@ function ProjectCard({ p }: { p: Project }) {
       <div className="flex items-start justify-between gap-3">
         <div>
           <h3 className="font-mono text-lg text-[var(--text)]">{p.name}</h3>
-          <p className="mt-0.5 font-mono text-xs text-[var(--muted)]">
+          <p className="mt-0.5 font-mono text-[15px] text-[var(--muted)]">
             {p.subtitle}
           </p>
         </div>
@@ -44,7 +44,7 @@ function ProjectCard({ p }: { p: Project }) {
         </span>
       </div>
 
-      <p className="mt-3 text-[14px] leading-relaxed text-[var(--text-2)]">
+      <p className="mt-3 text-[15px] leading-relaxed text-[var(--text-2)]">
         {p.description}
       </p>
 
@@ -56,12 +56,12 @@ function ProjectCard({ p }: { p: Project }) {
               className="rounded-md border border-[var(--border)] bg-[var(--inset)] px-2 py-2 text-center"
             >
               <div
-                className="font-mono text-[13px] font-semibold"
+                className="font-mono text-[15px] font-semibold"
                 style={{ color: `var(${p.accent})` }}
               >
                 {s.value}
               </div>
-              <div className="mt-0.5 text-[10px] uppercase tracking-wide text-[var(--muted)]">
+              <div className="mt-0.5 text-[13px] uppercase tracking-wide text-[var(--muted)]">
                 {s.label}
               </div>
             </div>
@@ -82,14 +82,14 @@ function ProjectCard({ p }: { p: Project }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`${p.name} on GitHub`}
-          className="inline-flex shrink-0 items-center gap-1.5 font-mono text-xs text-[var(--text-2)] transition-colors hover:text-[var(--amber)]"
+          className="inline-flex shrink-0 items-center gap-1.5 font-mono text-[15px] text-[var(--text-2)] transition-colors hover:text-[var(--amber)]"
         >
           <GithubIcon size={16} />
           source
           <ExternalLinkIcon size={13} />
         </a>
       </div>
-    </motion.article>
+    </m.article>
   );
 }
 
@@ -102,17 +102,18 @@ export function Projects() {
   );
 
   return (
-    <section id="projects" className="mx-auto max-w-5xl scroll-mt-16 px-5 py-20">
+    <section id="projects" className="mx-auto max-w-5xl px-5 py-20">
       <SectionLabel meta={`${String(shown.length).padStart(2, "0")} repos`}>
         projects
       </SectionLabel>
 
-      <div className="mb-8 flex flex-wrap gap-2 font-mono text-xs">
+      <div className="mb-8 flex flex-wrap gap-2 font-mono text-[15px]">
         {FILTERS.map((f) => (
           <button
             key={f}
             type="button"
             onClick={() => setFilter(f)}
+            aria-pressed={filter === f}
             className={cn(
               "rounded-md border px-3 py-1.5 transition-colors duration-200",
               filter === f
@@ -125,13 +126,13 @@ export function Projects() {
         ))}
       </div>
 
-      <motion.div layout className="grid gap-5 sm:grid-cols-2">
+      <m.div layout className="grid gap-5 sm:grid-cols-2">
         <AnimatePresence mode="popLayout">
           {shown.map((p) => (
             <ProjectCard key={p.id} p={p} />
           ))}
         </AnimatePresence>
-      </motion.div>
+      </m.div>
     </section>
   );
 }

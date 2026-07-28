@@ -6,7 +6,7 @@ import { ChevronRightIcon } from "@/components/ui/icons";
 
 export function Experience() {
   return (
-    <section id="experience" className="mx-auto max-w-5xl scroll-mt-16 px-5 py-20">
+    <section id="experience" className="mx-auto max-w-5xl px-5 py-20">
       <SectionLabel
         meta={`${String(experience.length).padStart(2, "0")} role${experience.length === 1 ? "" : "s"}`}
       >
@@ -26,7 +26,7 @@ export function Experience() {
                   <h3 className="font-mono text-lg text-[var(--text)]">
                     {job.company}
                   </h3>
-                  <span className="font-mono text-xs text-[var(--amber)]">
+                  <span className="font-mono text-[15px] text-[var(--amber)]">
                     {job.period}
                   </span>
                 </div>
@@ -38,7 +38,7 @@ export function Experience() {
                   {job.bullets.map((b) => (
                     <li
                       key={b.slice(0, 28)}
-                      className="flex gap-2 text-[14px] leading-relaxed text-[var(--text-2)]"
+                      className="flex gap-2 text-[15px] leading-relaxed text-[var(--text-2)]"
                     >
                       <ChevronRightIcon
                         size={15}

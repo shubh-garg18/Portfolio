@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 import type { CSSProperties } from "react";
 import { personal, heroTaglines } from "@/data/content";
 import { WindowChrome } from "@/components/ui/WindowChrome";
 import { SocialLinks } from "@/components/ui/SocialLinks";
+import { BlinkingCursor } from "@/components/ui/BlinkingCursor";
 import { OrderBook } from "@/components/sections/OrderBook";
 import { ChevronRightIcon, DownloadIcon } from "@/components/ui/icons";
 
@@ -62,49 +63,40 @@ export function Hero() {
       className="mx-auto flex min-h-[100svh] max-w-5xl items-center px-5 pt-16 pb-10"
     >
       <div className="grid w-full items-center gap-6 lg:grid-cols-[1.25fr_1fr]">
-        {/* identity window */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-        >
+        {/* identity window — CSS entrance so it paints pre-hydration */}
+        <div className="rise">
           <WindowChrome title="~/whoami" bodyClassName="p-6 sm:p-8">
             <div className="font-mono text-sm text-[var(--text-2)]">
               <span className="text-[var(--amber)]">$</span> {typed}
-              {!cmdDone && <span className="cursor-blink">▮</span>}
+              {!cmdDone && <BlinkingCursor />}
             </div>
 
-            {cmdDone && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.4 }}
-                className="mt-3"
-              >
-                <h1 className="font-mono text-3xl font-semibold leading-tight text-[var(--text)] sm:text-4xl">
-                  {personal.name}
-                  <span className="cursor-blink ml-1">▮</span>
-                </h1>
-                <p className="mt-1 font-mono text-sm text-[var(--muted)]">
-                  ~ aka{" "}
-                  <span className="text-[var(--amber)]">
-                    &quot;{personal.alias.toLowerCase()}&quot;
-                  </span>
-                </p>
-              </motion.div>
-            )}
+            {/* always in the DOM: the page's h1 must exist for crawlers
+                and pre-JS paints; only the reveal is animated (CSS) */}
+            <div className="hero-reveal mt-3">
+              <h1 className="text-glow font-mono text-3xl font-semibold leading-tight text-[var(--text)] sm:text-4xl">
+                {personal.name}
+                <BlinkingCursor className="ml-1" />
+              </h1>
+              <p className="mt-1 font-mono text-sm text-[var(--muted)]">
+                ~ aka{" "}
+                <span className="text-[var(--amber)]">
+                  &quot;{personal.alias.toLowerCase()}&quot;
+                </span>
+              </p>
+            </div>
 
             <p className="mt-4 text-[15px] text-[var(--text-2)]">
               Backend Engineer · Low-Latency Systems · IIT Roorkee &apos;27
             </p>
 
             {/* tagline rotator */}
-            <div className="mt-3 flex min-h-[1.4rem] items-center gap-2 font-mono text-[13px]">
+            <div className="mt-3 flex min-h-[1.4rem] items-center gap-2 font-mono text-[15px]">
               <span className="text-[var(--mint)]">$</span>
               <span className="text-[var(--muted)]">echo</span>
               <div className="relative flex-1 overflow-hidden">
                 <AnimatePresence mode="wait">
-                  <motion.span
+                  <m.span
                     key={tagIdx}
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -113,7 +105,7 @@ export function Hero() {
                     className="block text-[var(--text)]"
                   >
                     {heroTaglines[tagIdx]}
-                  </motion.span>
+                  </m.span>
                 </AnimatePresence>
               </div>
             </div>
@@ -157,16 +149,12 @@ export function Hero() {
               </div>
             </div>
           </WindowChrome>
-        </motion.div>
+        </div>
 
         {/* signature: order book */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15, ease: "easeOut" }}
-        >
+        <div className="rise" style={{ "--rise-delay": "0.15s" } as CSSProperties}>
           <OrderBook />
-        </motion.div>
+        </div>
       </div>
     </section>
   );

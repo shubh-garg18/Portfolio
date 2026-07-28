@@ -26,7 +26,7 @@ export function WindowChrome({
     <div className={cn("panel overflow-hidden", className)}>
       <div className="winbar">
         <span
-          className="font-mono text-xs"
+          className="font-mono text-[15px]"
           style={{ color: `var(${accent})` }}
         >
           {title}

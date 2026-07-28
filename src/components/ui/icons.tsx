@@ -59,43 +59,10 @@ export function ExternalLinkIcon(props: IconProps) {
   );
 }
 
-export function ArrowDownIcon(props: IconProps) {
-  return (
-    <Svg {...props}>
-      <path d="M12 4v15M6 13l6 6 6-6" />
-    </Svg>
-  );
-}
-
 export function ChevronRightIcon(props: IconProps) {
   return (
     <Svg {...props}>
       <path d="m9 6 6 6-6 6" />
-    </Svg>
-  );
-}
-
-export function TerminalIcon(props: IconProps) {
-  return (
-    <Svg {...props}>
-      <rect x="3" y="4" width="18" height="16" rx="1.5" />
-      <path d="m7 9 3 3-3 3M13 15h4" />
-    </Svg>
-  );
-}
-
-export function MenuIcon(props: IconProps) {
-  return (
-    <Svg {...props}>
-      <path d="M4 7h16M4 12h16M4 17h16" />
-    </Svg>
-  );
-}
-
-export function CloseIcon(props: IconProps) {
-  return (
-    <Svg {...props}>
-      <path d="M6 6l12 12M18 6L6 18" />
     </Svg>
   );
 }
@@ -143,6 +110,25 @@ export function MoonIcon(props: IconProps) {
   return (
     <Svg {...props}>
       <path d="M20 14.5A8 8 0 1 1 9.5 4a6.2 6.2 0 0 0 10.5 10.5Z" />
+    </Svg>
+  );
+}
+
+export function ChevronDownIcon(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="m6 9 6 6 6-6" />
+    </Svg>
+  );
+}
+
+// CRT monitor with scanlines
+export function CrtIcon(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <rect x="3" y="4" width="18" height="13" rx="1.5" />
+      <path d="M6.5 8h11M6.5 11h11M6.5 14h7" />
+      <path d="M9 20.5h6" />
     </Svg>
   );
 }

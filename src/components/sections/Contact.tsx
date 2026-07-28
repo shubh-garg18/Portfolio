@@ -5,7 +5,7 @@ import { MailIcon, LinkedInIcon, GithubIcon, ExternalLinkIcon } from "@/componen
 
 export function Contact() {
   return (
-    <section id="contact" className="mx-auto max-w-5xl scroll-mt-16 px-5 py-20">
+    <section id="contact" className="mx-auto max-w-5xl px-5 py-20">
       <SectionLabel meta="03 links">get_in_touch()</SectionLabel>
 
       <Reveal>

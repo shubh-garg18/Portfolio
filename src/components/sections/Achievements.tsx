@@ -1,11 +1,18 @@
+import type { ReactNode } from "react";
 import { achievements } from "@/data/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { Reveal } from "@/components/ui/Reveal";
 import { ExternalLinkIcon } from "@/components/ui/icons";
+import { WQBrainIcon } from "@/components/ui/WQBrainIcon";
+
+// real brand marks (vendored SVGs) keyed by Achievement.icon
+const LOGOS: Record<string, ReactNode> = {
+  "wq-brain": <WQBrainIcon size={26} className="mt-0.5 text-[var(--indigo)]" />,
+};
 
 export function Achievements() {
   return (
-    <section className="mx-auto max-w-5xl scroll-mt-16 px-5 py-20">
+    <section id="achievements" className="mx-auto max-w-5xl px-5 py-20">
       <SectionLabel
         meta={`${String(achievements.length).padStart(2, "0")} awards`}
       >
@@ -16,9 +23,11 @@ export function Achievements() {
         {achievements.map((a, i) => {
           const inner = (
             <div className="panel panel-hover flex h-full items-start gap-3 p-5">
-              <span className="text-2xl leading-none" aria-hidden="true">
-                {a.icon}
-              </span>
+              {LOGOS[a.icon] ?? (
+                <span className="text-2xl leading-none" aria-hidden="true">
+                  {a.icon}
+                </span>
+              )}
               <div className="min-w-0">
                 <h3 className="flex items-center gap-1.5 font-mono text-sm text-[var(--text)]">
                   {a.title}
@@ -26,7 +35,7 @@ export function Achievements() {
                     <ExternalLinkIcon size={13} className="text-[var(--muted)]" />
                   )}
                 </h3>
-                <p className="mt-1 text-[13px] leading-relaxed text-[var(--text-2)]">
+                <p className="mt-1 text-[15px] leading-relaxed text-[var(--text-2)]">
                   {a.detail}
                 </p>
               </div>

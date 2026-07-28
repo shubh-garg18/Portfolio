@@ -11,6 +11,7 @@ export type AccentVar =
 
 export const personal = {
   name: "Shubh Garg",
+  siteUrl: "https://bitwise-rouge.vercel.app",
   alias: "Bitwise",
   handle: "shubh-garg18",
   tagline: "Backend engineer. Low-latency systems. IIT Roorkee '27.",
@@ -20,9 +21,11 @@ export const personal = {
   linkedin: "https://linkedin.com/in/shubh--garg",
   codeforces: "https://codeforces.com/profile/Bitwise_Garg",
   codeforcesHandle: "Bitwise_Garg",
-  leetcode: "https://leetcode.com/shubhgarg82",
-  leetcodeHandle: "shubhgarg82",
+  leetcode: "https://leetcode.com/Bitwise_Garg",
+  leetcodeHandle: "Bitwise_Garg",
   leetcodeRating: 1947,
+  codeforcesRating: 1612, // static fallback when the live CF fetch fails
+  firstDeploy: "2026-06-24", // first commit — drives the neofetch uptime row
   resumePdf: "/Shubh_Garg_Resume.pdf",
   avatar: "https://avatars.githubusercontent.com/u/149188565?v=4",
 } as const;
@@ -36,6 +39,8 @@ export const heroTaglines = [
 
 export const about = {
   body: `I build things close to the metal — matching engines, in-memory stores, audit systems. Currently interning at AutoCash.ai on backend infrastructure.
+
+Also reach for Django for API-shaped problems — RoadCents solves the gas-station problem end to end: an exact DP oracle, offline geocoding, and a routing API that proves its own call budget.
 
 IIT Roorkee '27. Most at home in C++ and a Linux terminal, optimizing the path between a request and the metal.
 
@@ -85,17 +90,17 @@ export const projects: Project[] = [
     id: "cachemeifucan",
     name: "CacheMeIfYouCan",
     subtitle: "Redis-Compatible In-Memory Store",
-    lang: "TypeScript",
+    lang: "C++",
     accent: "--indigo",
-    github: "https://github.com/shubh-garg18/CacheMeIfYouCan",
+    github: "https://github.com/shubh-garg18/redis-cpp",
     description:
-      "Redis RESP wire protocol over raw TCP. 38 commands, 8 data-structure families — streams, transactions, pub/sub, geospatial. Full RDB persistence, master-replica replication with PSYNC/FULLRESYNC.",
+      "Redis RESP wire protocol over raw TCP — redis-cli and standard clients connect unmodified. 39 commands across six data-structure families, queued transactions with optimistic locking, AOF persistence, master-replica replication, and O(1) exact-LRU eviction.",
     stats: [
-      { label: "GET ops/sec", value: "~120k" },
-      { label: "SET ops/sec", value: "~100k" },
-      { label: "Commands", value: "38 / 8 families" },
+      { label: "Throughput", value: "~225k ops/sec" },
+      { label: "Commands", value: "39 / 6 families" },
+      { label: "Concurrency", value: "Thread-per-connection" },
     ],
-    tags: ["TypeScript", "TCP", "RESP Protocol", "Redis"],
+    tags: ["C++", "TCP", "RESP Protocol", "Redis"],
     featured: true,
   },
   {
@@ -122,6 +127,40 @@ export const projects: Project[] = [
       "Browser-based multi-user editor with live cursors, in-app chat, multi-language execution, AI copilot, and collaborative whiteboard. Stateless relay server, 23-event Socket.io protocol.",
     stats: [],
     tags: ["TypeScript", "React", "Socket.io", "WebSockets"],
+    featured: false,
+  },
+  {
+    id: "roadcents",
+    name: "RoadCents",
+    subtitle: "Cost-Optimal Fuel Routing API",
+    lang: "Python",
+    accent: "--cyan",
+    github: "https://github.com/shubh-garg18/roadcents",
+    description:
+      "Django + DRF API solving the gas-station problem — the cheapest fuel plan, not the fewest stops — verified against an exact DP oracle. ~6,700 stations geocoded offline and corridor-matched, with at most one external routing call per request.",
+    stats: [
+      { label: "Tests", value: "110 passing" },
+      { label: "Stations indexed", value: "~6,700" },
+      { label: "Routing calls", value: "≤1 / request" },
+    ],
+    tags: ["Python", "Django", "DRF", "Geospatial", "Optimization"],
+    featured: true,
+  },
+  {
+    id: "mile-marker",
+    name: "Mile Marker",
+    subtitle: "FMCSA Hours-of-Service Trip Planner",
+    lang: "Python",
+    accent: "--amber",
+    github: "https://github.com/shubh-garg18/mile-marker",
+    description:
+      "Routes a truck trip and simulates it against the hours-of-service limits in 49 CFR Part 395, returning every regulation-forced stop and a filled daily log sheet. Pure-Python compliance engine with no framework dependency, checked by a 200-trip randomized property test; React/TypeScript frontend.",
+    stats: [
+      { label: "Tests", value: "146 passing" },
+      { label: "Property tests", value: "200-trip randomized" },
+      { label: "Stack", value: "Django + React/TS" },
+    ],
+    tags: ["Python", "Django", "React", "TypeScript"],
     featured: false,
   },
   {
@@ -165,10 +204,10 @@ export const experience: Experience[] = [
 export type SkillCategory = { label: string; items: string[] };
 
 export const skills: SkillCategory[] = [
-  { label: "Languages", items: ["C++", "Python", "TypeScript", "SQL"] },
+  { label: "Languages", items: ["C++", "Python", "TypeScript"] },
   {
     label: "Backend",
-    items: ["FastAPI", "Node.js", "Express.js", "REST", "GraphQL", "WebSockets"],
+    items: ["FastAPI", "Django", "Node.js", "Express.js", "REST", "WebSockets"],
   },
   {
     label: "Systems",
@@ -187,7 +226,6 @@ export const langAccent: Record<string, AccentVar> = {
   "C++": "--coral",
   TypeScript: "--indigo",
   Python: "--mint",
-  SQL: "--amber",
 };
 
 // per-category accent for the skills grid headers
@@ -224,6 +262,7 @@ export const profile: { k: string; v: string; c: AccentVar }[] = [
 
 
 export type Achievement = {
+  /** Emoji, or a logo key resolved in Achievements.tsx (e.g. "wq-brain"). */
   icon: string;
   title: string;
   detail: string;
@@ -232,27 +271,27 @@ export type Achievement = {
 
 export const achievements: Achievement[] = [
   {
-    icon: "🥇",
-    title: "IMO Gold Medal",
-    detail: "International Rank 126 · International Mathematics Olympiad",
+    icon: "🏆",
+    title: "Top 50 · InMobi Codies 2026",
+    detail: "1000+ participants, national-level competitive coding contest",
   },
   {
-    icon: "📈",
+    icon: "wq-brain",
     title: "WorldQuant BRAIN Consultant",
     detail:
       "Aug–Nov 2024 · designed and backtested predictive alpha models on global financial market data",
   },
   {
     icon: "⚡",
-    title: "Codeforces 1612",
-    detail: "Handle: Bitwise_Garg",
-    link: "https://codeforces.com/profile/Bitwise_Garg",
+    title: `Codeforces ${personal.codeforcesRating}`,
+    detail: `Handle: ${personal.codeforcesHandle}`,
+    link: personal.codeforces,
   },
   {
     icon: "🧩",
-    title: "LeetCode 1947",
-    detail: "Handle: shubhgarg82",
-    link: "https://leetcode.com/shubhgarg82",
+    title: `LeetCode ${personal.leetcodeRating}`,
+    detail: `Handle: ${personal.leetcodeHandle}`,
+    link: personal.leetcode,
   },
   {
     icon: "🎓",
@@ -267,5 +306,21 @@ export const nav = [
   { id: "projects", label: "projects" },
   { id: "skills", label: "skills" },
   { id: "stats", label: "stats" },
+  { id: "achievements", label: "awards" },
   { id: "contact", label: "contact" },
 ] as const;
+
+// colorschemes — each maps to a [data-theme] token block in globals.css.
+// First entry is the dark default, second the light default.
+export const themes = [
+  "workstation",
+  "paper",
+  "gruvbox",
+  "catppuccin",
+  "nord",
+  "rose-pine",
+  "tokyonight",
+  "kanagawa",
+  "everforest",
+] as const;
+export type ThemeName = (typeof themes)[number];

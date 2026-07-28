@@ -1,10 +1,7 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { personal } from "@/data/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { CodeforcesIcon, ExternalLinkIcon } from "@/components/ui/icons";
-import { cfTier, sparklinePoints } from "@/lib/utils";
+import { cfTier, brailleSparkline } from "@/lib/utils";
 
 const CF_API = "https://codeforces.com/api";
 
@@ -15,52 +12,52 @@ type RatingChange = {
   newRating: number;
 };
 
-export function CPStats() {
-  const [rating, setRating] = useState<number | null>(null);
-  const [maxRating, setMaxRating] = useState<number | null>(null);
-  const [history, setHistory] = useState<RatingChange[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+type CFData = {
+  rating: number | null;
+  maxRating: number | null;
+  history: RatingChange[];
+};
 
-  useEffect(() => {
-    let cancelled = false;
-    async function load() {
-      try {
-        const [info, ratingRes] = await Promise.all([
-          fetch(`${CF_API}/user.info?handles=${personal.codeforcesHandle}`).then(
-            (r) => r.json(),
-          ),
-          fetch(`${CF_API}/user.rating?handle=${personal.codeforcesHandle}`).then(
-            (r) => r.json(),
-          ),
-        ]);
-        if (cancelled) return;
-        if (info.status !== "OK" || ratingRes.status !== "OK") {
-          throw new Error("CF API error");
-        }
-        const u = info.result[0];
-        setRating(u.rating ?? null);
-        setMaxRating(u.maxRating ?? null);
-        setHistory((ratingRes.result as RatingChange[]).slice(-20));
-      } catch {
-        if (!cancelled) setError(true);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-    load();
-    return () => {
-      cancelled = true;
+// Server-side with hourly ISR: real data baked into the HTML, no client
+// fetch, no skeleton, and Codeforces downtime can't break a visit.
+async function getCFData(): Promise<CFData | null> {
+  try {
+    const [infoRes, ratingRes] = await Promise.all([
+      fetch(`${CF_API}/user.info?handles=${personal.codeforcesHandle}`, {
+        next: { revalidate: 3600 },
+      }),
+      fetch(`${CF_API}/user.rating?handle=${personal.codeforcesHandle}`, {
+        next: { revalidate: 3600 },
+      }),
+    ]);
+    const [info, rating] = await Promise.all([infoRes.json(), ratingRes.json()]);
+    if (info.status !== "OK" || rating.status !== "OK") return null;
+    const u = info.result[0];
+    return {
+      rating: u.rating ?? null,
+      maxRating: u.maxRating ?? null,
+      history: (rating.result as RatingChange[]).slice(-20),
     };
-  }, []);
+  } catch {
+    return null;
+  }
+}
 
+export async function CPStats() {
+  const data = await getCFData();
+  const rating = data?.rating ?? null;
   const tier = rating != null ? cfTier(rating) : null;
-  const sparkVals = history.map((h) => h.newRating);
-  const recent = [...history].slice(-6).reverse();
+  const sparkVals = data?.history.map((h) => h.newRating) ?? [];
+  const recent = data ? [...data.history].slice(-6).reverse() : [];
+  const syncedAt = data
+    ? `${new Date().toISOString().slice(0, 16).replace("T", " ")} UTC`
+    : null;
 
   return (
-    <section id="stats" className="mx-auto max-w-5xl scroll-mt-16 px-5 py-20">
-      <SectionLabel meta="live">competitive_programming</SectionLabel>
+    <section id="stats" className="mx-auto max-w-5xl px-5 py-20">
+      <SectionLabel meta={data ? "live · 1h sync" : "cached"}>
+        competitive_programming
+      </SectionLabel>
 
       <div className="panel panel-hover p-5 sm:p-6">
         <div className="mb-5 flex items-center justify-between">
@@ -72,25 +69,27 @@ export function CPStats() {
             href={personal.codeforces}
             target="_blank"
             rel="noopener noreferrer"
-            className="font-mono text-xs text-[var(--muted)] transition-colors hover:text-[var(--amber)]"
+            className="font-mono text-[15px] text-[var(--muted)] transition-colors hover:text-[var(--amber)]"
           >
             @{personal.codeforcesHandle}{" "}
             <ExternalLinkIcon size={12} className="inline" />
           </a>
         </div>
 
-        {loading && <Skeleton />}
-
-        {!loading && error && (
+        {!data && (
           <div className="py-6 font-mono text-sm text-[var(--muted)]">
-            <span className="text-[var(--amber)]">!</span> live stats unavailable —
-            rating <span className="text-[var(--mint)]">1612</span> (Expert).
+            <span className="text-[var(--amber)]">!</span> live stats
+            unavailable — rating{" "}
+            <span className="text-[var(--mint)]">
+              {personal.codeforcesRating}
+            </span>{" "}
+            ({cfTier(personal.codeforcesRating).name}).
           </div>
         )}
 
-        {!loading && !error && (
+        {data && (
           <div className="grid gap-6 md:grid-cols-[200px_1fr] md:gap-8">
-            {/* rating block */}
+            {/* rating block — tier color only on the large number (3:1) */}
             <div className="flex flex-row items-end gap-5 md:flex-col md:items-start md:gap-2">
               <div>
                 <div
@@ -99,53 +98,43 @@ export function CPStats() {
                 >
                   {rating}
                 </div>
-                <div
-                  className="mt-1 font-mono text-xs"
-                  style={{ color: tier?.color }}
-                >
+                <div className="mt-1 font-mono text-[15px] text-[var(--text-2)]">
                   {tier?.name}
                 </div>
               </div>
-              {maxRating != null && (
-                <div className="pb-1 font-mono text-xs text-[var(--muted)] md:pb-0 md:pt-2">
+              {data.maxRating != null && (
+                <div className="pb-1 font-mono text-[15px] text-[var(--muted)] md:pb-0 md:pt-2">
                   peak{" "}
-                  <span className="text-[var(--text-2)]">{maxRating}</span>
+                  <span className="text-[var(--text-2)]">{data.maxRating}</span>
                   <span className="mx-2 text-[var(--border-strong)]">·</span>
-                  {history.length} rated
+                  {data.history.length} rated
                 </div>
               )}
             </div>
 
-            {/* sparkline + contests */}
+            {/* braille sparkline + contests */}
             <div className="md:border-l md:border-[var(--border)] md:pl-8">
               {sparkVals.length > 1 && (
-                <svg
-                  viewBox="0 0 200 48"
-                  preserveAspectRatio="none"
-                  className="h-20 w-full"
-                  aria-label="Codeforces rating history"
-                >
-                  <defs>
-                    <linearGradient id="cfFill" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="var(--mint)" stopOpacity="0.28" />
-                      <stop offset="100%" stopColor="var(--mint)" stopOpacity="0" />
-                    </linearGradient>
-                  </defs>
-                  <polygon
-                    fill="url(#cfFill)"
-                    points={`0,48 ${sparklinePoints(sparkVals, 200, 48)} 200,48`}
-                  />
-                  <polyline
-                    fill="none"
-                    stroke="var(--mint)"
-                    strokeWidth="1.5"
-                    vectorEffect="non-scaling-stroke"
-                    points={sparklinePoints(sparkVals, 200, 48)}
-                  />
-                </svg>
+                <div>
+                  <div
+                    className="font-mono text-3xl leading-none tracking-[0.1em] text-[var(--mint)]"
+                    aria-hidden="true"
+                  >
+                    {brailleSparkline(sparkVals)}
+                  </div>
+                  <p className="sr-only">
+                    Codeforces rating over the last {sparkVals.length}{" "}
+                    contests, from {Math.min(...sparkVals)} to{" "}
+                    {Math.max(...sparkVals)}.
+                  </p>
+                  <div className="mt-1.5 font-mono text-[13px] text-[var(--muted)]">
+                    last {sparkVals.length} contests ·{" "}
+                    {Math.min(...sparkVals)}–{Math.max(...sparkVals)}
+                  </div>
+                </div>
               )}
 
-              <div className="mt-4 grid gap-x-6 gap-y-1.5 font-mono text-[12px] sm:grid-cols-2">
+              <div className="mt-4 grid gap-x-6 gap-y-1.5 font-mono text-[15px] sm:grid-cols-2">
                 {recent.map((c, i) => {
                   const delta = c.newRating - c.oldRating;
                   return (
@@ -172,26 +161,16 @@ export function CPStats() {
                   );
                 })}
               </div>
+
+              {syncedAt && (
+                <div className="mt-3 text-right font-mono text-[13px] text-[var(--muted)]">
+                  synced {syncedAt}
+                </div>
+              )}
             </div>
           </div>
         )}
       </div>
     </section>
-  );
-}
-
-function Skeleton() {
-  return (
-    <div className="grid animate-pulse gap-6 md:grid-cols-[200px_1fr]">
-      <div className="space-y-3">
-        <div className="h-12 w-28 rounded bg-[var(--inset)]" />
-        <div className="h-3 w-20 rounded bg-[var(--inset)]" />
-      </div>
-      <div className="space-y-3">
-        <div className="h-20 w-full rounded bg-[var(--inset)]" />
-        <div className="h-3 w-full rounded bg-[var(--inset)]" />
-        <div className="h-3 w-5/6 rounded bg-[var(--inset)]" />
-      </div>
-    </div>
   );
 }
