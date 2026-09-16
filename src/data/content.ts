@@ -16,7 +16,6 @@ export const personal = {
   handle: "shubh-garg18",
   tagline: "Backend engineer. Infrastructure & AI systems. IIT Roorkee '27.",
   email: "shubh18garg82@gmail.com",
-  phone: "+91 9719878921",
   github: "https://github.com/shubh-garg18",
   linkedin: "https://linkedin.com/in/shubh--garg",
   codeforces: "https://codeforces.com/profile/Bitwise_Garg",
@@ -184,19 +183,19 @@ export type VibeProject = {
 
 export const vibeCoded: VibeProject = {
   name: "passbook",
-  subtitle: "Self-Hosted Bank-Statement Ledger",
+  subtitle: "Offline Bank-Statement Ledger",
   github: "https://github.com/shubh-garg18/passbook",
   accent: "--mint",
   description:
-    "Turns weekly bank statements into a categorised, self-hosted Firefly III ledger that separates spending from movement — money you shift into your own savings, and refunds coming back, stop counting as money gone. Reads Canara, SBI and Union Bank exports including password-protected PDFs, and you name a payee once for the name to stick on every row before and after. Runs entirely on one machine: no account, no upload, no monthly fee.",
+    "A bank statement shows movement, not spending. Money you shift into your own savings leaves the account and a refund arrives in it; neither is spending, but every app counts both, so the figure you get back is inflated. passbook separates the two on your own machine and shows what it set aside so you can argue with it. It also gives payees their names back: your bank writes UPI/9876543210/PAYTM, you call it Mess once, and it is Mess on every row you already have and every one that arrives after. Reads Canara, SBI and Union Bank statements, password-protected PDFs included. Nothing is uploaded — no account, no company holding your statement, no monthly fee.",
   note:
-    "Written with Claude Code doing the typing — specified, reviewed and shipped by me. The constraints are the interesting part: money is never a float anywhere including the database, the same row cannot be stored twice because of the shape of the table rather than a check, and restores are drilled rather than assumed.",
+    "Written with Claude Code doing the typing, specified and reviewed by me. The constraints are the part worth reading: money is never a float anywhere, including in the database; the same row cannot be stored twice because that is the shape of the table rather than a check something could skip; and it reconciles against your statements and reports unverified rather than showing a tick it has not earned.",
   stats: [
     { label: "Test files", value: "36" },
-    { label: "Banks parsed", value: "3" },
-    { label: "Stack", value: "Python · TS · PG" },
+    { label: "Banks read", value: "3" },
+    { label: "Uploads", value: "0 (offline)" },
   ],
-  tags: ["Python", "PostgreSQL", "Docker", "TypeScript", "Firefly III"],
+  tags: ["Python", "Flask", "PostgreSQL", "Docker", "TypeScript"],
 };
 
 export type Experience = {
@@ -218,7 +217,7 @@ export const experience: Experience[] = [
       "Designed and executed GraphQL-to-REST migration: 56 frontend operations (17 queries, 35 mutations), 12 files, +1,852/−1,249 lines.",
       "Implemented multi-select liquidity-pool filtering across 9 backend files spanning chart-aggregation, transaction, and forecast endpoints.",
     ],
-    tags: ["FastAPI", "SQLAlchemy", "PostgreSQL", "Windmill", "S3", "GraphQL"],
+    tags: ["FastAPI", "SQLAlchemy", "PostgreSQL", "Windmill", "GraphQL"],
   },
 ];
 

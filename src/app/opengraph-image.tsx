@@ -148,8 +148,7 @@ export default async function Image() {
                   letterSpacing: -2,
                 }}
               >
-                Shubh&nbsp;<span style={{ color: C.amber }}>&quot;Bitwise&quot;</span>
-                &nbsp;Garg
+                {personal.name}
               </div>
               <div
                 style={{
@@ -159,7 +158,7 @@ export default async function Image() {
                   color: C.muted,
                 }}
               >
-                ~ @{personal.codeforcesHandle}
+                aka&nbsp;<span style={{ color: C.amber }}>{personal.codeforcesHandle}</span>
               </div>
               <div
                 style={{

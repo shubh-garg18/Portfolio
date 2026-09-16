@@ -12,11 +12,14 @@ export function Achievements() {
         achievements
       </SectionLabel>
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid auto-rows-fr items-stretch gap-4 sm:grid-cols-2">
         {achievements.map((a, i) => {
           const inner = (
             <div className="panel panel-hover flex h-full items-start gap-3 p-5">
-              <span className="text-2xl leading-none" aria-hidden="true">
+              <span
+                aria-hidden="true"
+                className="flex w-7 shrink-0 justify-center text-2xl leading-none"
+              >
                 {a.icon}
               </span>
               <div className="min-w-0">
@@ -34,7 +37,7 @@ export function Achievements() {
           );
 
           return (
-            <Reveal key={a.title} delay={(i % 3) * 0.05}>
+            <Reveal key={a.title} delay={(i % 2) * 0.05} className="h-full">
               {a.link ? (
                 <a
                   href={a.link}

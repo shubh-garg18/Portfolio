@@ -74,30 +74,27 @@ export function Hero() {
 
             {/* always in the DOM: the page's h1 must exist for crawlers
                 and pre-JS paints; only the reveal is animated (CSS) */}
-            <div className="hero-reveal mt-3">
-              {/* stacked, not inline: beside the name the mark forced the h1
-                  to wrap and orphaned "Garg" on its own line.
-                  decorative — the h1 below already carries the name */}
+            <div className="hero-reveal mt-3 flex items-center gap-4">
+              {/* decorative: the name sits beside it */}
               <Image
                 src="/logo-bitwise.png"
                 alt=""
                 width={292}
                 height={277}
                 priority
-                className="logo-mark mb-2 h-[4.5rem] w-auto sm:h-20"
+                className="logo-mark h-[4.5rem] w-auto shrink-0 sm:h-20"
               />
               <div className="min-w-0">
-              <h1 className="text-glow font-mono text-3xl font-semibold leading-tight text-[var(--text)] sm:text-4xl">
-                Shubh{" "}
-                <span className="text-[var(--amber)]">
-                  &quot;{personal.alias}&quot;
-                </span>{" "}
-                Garg
-                <BlinkingCursor className="ml-1" />
-              </h1>
-              <p className="mt-1 font-mono text-sm text-[var(--muted)]">
-                ~ @{personal.codeforcesHandle}
-              </p>
+                <h1 className="text-glow font-mono text-3xl font-semibold leading-tight text-[var(--text)] sm:text-4xl">
+                  {personal.name}
+                  <BlinkingCursor className="ml-1" />
+                </h1>
+                <p className="mt-1 font-mono text-sm text-[var(--muted)]">
+                  aka{" "}
+                  <span className="text-[var(--amber)]">
+                    {personal.codeforcesHandle}
+                  </span>
+                </p>
               </div>
             </div>
 
