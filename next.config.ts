@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 
-// next/image is not used anywhere; no remotePatterns needed.
+// Only local images (public/logo-bitwise.png); no remotePatterns needed.
 const nextConfig: NextConfig = {};
 
 export default nextConfig;

@@ -89,10 +89,21 @@ export function LeetCodeIcon(props: IconProps) {
   );
 }
 
-export function DownloadIcon(props: IconProps) {
+export function TrophyIcon(props: IconProps) {
   return (
     <Svg {...props}>
-      <path d="M12 4v11M7.5 10.5 12 15l4.5-4.5M5 19h14" />
+      <path d="M7 4h10v5a5 5 0 0 1-10 0V4Z" />
+      <path d="M7 5.5H4.5V7a3 3 0 0 0 3 3M17 5.5h2.5V7a3 3 0 0 1-3 3" />
+      <path d="M12 14v3M9 20h6M9.5 20l.5-3h4l.5 3" />
+    </Svg>
+  );
+}
+
+export function EyeIcon(props: IconProps) {
+  return (
+    <Svg {...props}>
+      <path d="M2.5 12S5.8 5.8 12 5.8 21.5 12 21.5 12 18.2 18.2 12 18.2 2.5 12 2.5 12Z" />
+      <circle cx="12" cy="12" r="2.9" />
     </Svg>
   );
 }

@@ -25,7 +25,7 @@ const plexSans = IBM_Plex_Sans({
 const tabTitle = `Bitwise — ${personal.name}`;
 const shareTitle = `${personal.name} · Backend Engineer`;
 const description =
-  "IIT Roorkee '27. Backend engineer focused on low-latency systems, matching engines, and agentic AI. Interning at AutoCash.ai.";
+  "IIT Roorkee '27. Backend engineer focused on infrastructure, distributed systems, and agentic AI. Interning at AutoCash.ai.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://bitwise-rouge.vercel.app"),
@@ -36,8 +36,9 @@ export const metadata: Metadata = {
     "Shubh Garg",
     "bitwise",
     "Backend Engineer",
-    "Low-latency systems",
-    "HFT",
+    "Backend Infrastructure",
+    "AI Engineer",
+    "Distributed Systems",
     "IIT Roorkee",
     "C++",
     "Order Matching Engine",

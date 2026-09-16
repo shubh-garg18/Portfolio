@@ -13,7 +13,8 @@ export function Contact() {
           <p className="font-mono text-sm text-[var(--text-2)]">
             <span className="text-[var(--amber)]">$</span> Open to:{" "}
             <span className="text-[var(--text)]">
-              SDE internships, quant/HFT roles, interesting systems problems.
+              SDE and backend infrastructure roles, AI engineering, interesting
+              systems problems.
             </span>
           </p>
 

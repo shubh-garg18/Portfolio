@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, m } from "framer-motion";
 import type { CSSProperties } from "react";
 import { personal, heroTaglines } from "@/data/content";
@@ -8,7 +9,7 @@ import { WindowChrome } from "@/components/ui/WindowChrome";
 import { SocialLinks } from "@/components/ui/SocialLinks";
 import { BlinkingCursor } from "@/components/ui/BlinkingCursor";
 import { OrderBook } from "@/components/sections/OrderBook";
-import { ChevronRightIcon, DownloadIcon } from "@/components/ui/icons";
+import { ChevronRightIcon, EyeIcon } from "@/components/ui/icons";
 
 const CMD = "whoami";
 
@@ -16,7 +17,7 @@ const CHIPS: { l: string; a: string }[] = [
   { l: "c++", a: "--coral" },
   { l: "redis", a: "--mint" },
   { l: "fastapi", a: "--indigo" },
-  { l: "hft", a: "--amber" },
+  { l: "postgres", a: "--amber" },
   { l: "linux", a: "--cyan" },
   { l: "mcp", a: "--mint" },
 ];
@@ -74,20 +75,35 @@ export function Hero() {
             {/* always in the DOM: the page's h1 must exist for crawlers
                 and pre-JS paints; only the reveal is animated (CSS) */}
             <div className="hero-reveal mt-3">
+              {/* stacked, not inline: beside the name the mark forced the h1
+                  to wrap and orphaned "Garg" on its own line.
+                  decorative — the h1 below already carries the name */}
+              <Image
+                src="/logo-bitwise.png"
+                alt=""
+                width={292}
+                height={277}
+                priority
+                className="logo-mark mb-2 h-[4.5rem] w-auto sm:h-20"
+              />
+              <div className="min-w-0">
               <h1 className="text-glow font-mono text-3xl font-semibold leading-tight text-[var(--text)] sm:text-4xl">
-                {personal.name}
+                Shubh{" "}
+                <span className="text-[var(--amber)]">
+                  &quot;{personal.alias}&quot;
+                </span>{" "}
+                Garg
                 <BlinkingCursor className="ml-1" />
               </h1>
               <p className="mt-1 font-mono text-sm text-[var(--muted)]">
-                ~ aka{" "}
-                <span className="text-[var(--amber)]">
-                  &quot;{personal.alias.toLowerCase()}&quot;
-                </span>
+                ~ @{personal.codeforcesHandle}
               </p>
+              </div>
             </div>
 
             <p className="mt-4 text-[15px] text-[var(--text-2)]">
-              Backend Engineer · Low-Latency Systems · IIT Roorkee &apos;27
+              Backend Engineer · Infrastructure &amp; AI Systems · IIT Roorkee
+              &apos;27
             </p>
 
             {/* tagline rotator */}
@@ -141,7 +157,7 @@ export function Hero() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-md border border-[var(--border-strong)] px-4 py-2.5 font-mono text-sm text-[var(--text-2)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[var(--text-2)] hover:text-[var(--text)]"
               >
-                <DownloadIcon size={15} />
+                <EyeIcon size={15} />
                 resume
               </a>
               <div className="sm:ml-auto">

@@ -6,6 +6,7 @@ import { Hero } from "@/components/sections/Hero";
 import { About } from "@/components/sections/About";
 import { Experience } from "@/components/sections/Experience";
 import { Projects } from "@/components/sections/Projects";
+import { VibeCoded } from "@/components/sections/VibeCoded";
 import { Skills } from "@/components/sections/Skills";
 import { CPStats } from "@/components/sections/CPStats";
 import { Achievements } from "@/components/sections/Achievements";
@@ -28,10 +29,11 @@ const jsonLd = {
     name: "Indian Institute of Technology Roorkee",
   },
   knowsAbout: [
-    "Low-latency systems",
+    "Backend infrastructure",
+    "Distributed systems",
+    "AI engineering",
     "Order matching engines",
     "C++",
-    "Backend engineering",
     "Competitive programming",
   ],
   sameAs: [
@@ -69,6 +71,7 @@ export default function Home() {
         <About />
         <Experience />
         <Projects />
+        <VibeCoded />
         <Skills />
         <CPStats />
         <Achievements />

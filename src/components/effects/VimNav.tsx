@@ -35,7 +35,7 @@ const COMMANDS: Record<string, () => void> = {
 const KEYMAP: [string, string][] = [
   ["j / k", "next / previous section"],
   ["gg / G", "top / bottom"],
-  ["1–7", "jump to workspace"],
+  [`1–${nav.length}`, "jump to workspace"],
   [":", "command line"],
   [":theme <name>", themes.join(" · ")],
   [":crt", "phosphor scanlines"],

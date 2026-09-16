@@ -6,7 +6,7 @@ import { AnimatePresence, m } from "framer-motion";
 import { projects, type Project } from "@/data/content";
 import { SectionLabel } from "@/components/ui/SectionLabel";
 import { TerminalBadge } from "@/components/ui/TerminalBadge";
-import { GithubIcon, ExternalLinkIcon } from "@/components/ui/icons";
+import { GithubIcon, ExternalLinkIcon, TrophyIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/utils";
 
 const FILTERS = ["All", "Featured", "C++", "TypeScript", "Python"] as const;
@@ -43,6 +43,13 @@ function ProjectCard({ p }: { p: Project }) {
           {p.lang}
         </span>
       </div>
+
+      {p.award && (
+        <div className="mt-3 flex items-center gap-1.5 font-mono text-[14px] text-[var(--amber)]">
+          <TrophyIcon size={14} className="shrink-0" />
+          {p.award}
+        </div>
+      )}
 
       <p className="mt-3 text-[15px] leading-relaxed text-[var(--text-2)]">
         {p.description}

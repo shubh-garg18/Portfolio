@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { personal } from "@/data/content";
 
-export const alt = `${personal.name} — backend engineer, low-latency systems`;
+export const alt = `${personal.name} — backend engineer, infrastructure and AI systems`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -38,7 +38,7 @@ const BIDS: [string, number][] = [
 
 const CHIPS: [string, string][] = [
   ["c++", C.coral],
-  ["hft", C.amber],
+  ["postgres", C.amber],
   ["redis", C.mint],
   ["linux", C.cyan],
   ["mcp", C.indigo],
@@ -148,7 +148,8 @@ export default async function Image() {
                   letterSpacing: -2,
                 }}
               >
-                {personal.name}
+                Shubh&nbsp;<span style={{ color: C.amber }}>&quot;Bitwise&quot;</span>
+                &nbsp;Garg
               </div>
               <div
                 style={{
@@ -158,7 +159,7 @@ export default async function Image() {
                   color: C.muted,
                 }}
               >
-                ~ aka&nbsp;<span style={{ color: C.amber }}>&quot;bitwise&quot;</span>
+                ~ @{personal.codeforcesHandle}
               </div>
               <div
                 style={{
@@ -168,7 +169,7 @@ export default async function Image() {
                   color: C.text2,
                 }}
               >
-                Backend Engineer · Low-Latency Systems
+                Backend Engineer · Infrastructure &amp; AI Systems
               </div>
               <div
                 style={{
@@ -178,7 +179,7 @@ export default async function Image() {
                   color: C.muted,
                 }}
               >
-                IIT Roorkee &#39;27 · matching engines · agentic AI
+                IIT Roorkee &#39;27 · backend infra · agentic AI
               </div>
               <div style={{ display: "flex", gap: 12, marginTop: 34 }}>
                 {CHIPS.map(([label, color]) => (

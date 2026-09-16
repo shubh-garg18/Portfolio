@@ -14,7 +14,7 @@ export const personal = {
   siteUrl: "https://bitwise-rouge.vercel.app",
   alias: "Bitwise",
   handle: "shubh-garg18",
-  tagline: "Backend engineer. Low-latency systems. IIT Roorkee '27.",
+  tagline: "Backend engineer. Infrastructure & AI systems. IIT Roorkee '27.",
   email: "shubh18garg82@gmail.com",
   phone: "+91 9719878921",
   github: "https://github.com/shubh-garg18",
@@ -24,7 +24,7 @@ export const personal = {
   leetcode: "https://leetcode.com/Bitwise_Garg",
   leetcodeHandle: "Bitwise_Garg",
   leetcodeRating: 1947,
-  codeforcesRating: 1612, // static fallback when the live CF fetch fails
+  codeforcesRating: 1657, // static fallback when the live CF fetch fails
   firstDeploy: "2026-06-24", // first commit — drives the neofetch uptime row
   resumePdf: "/Shubh_Garg_Resume.pdf",
   avatar: "https://avatars.githubusercontent.com/u/149188565?v=4",
@@ -44,12 +44,12 @@ Also reach for Django for API-shaped problems — RoadCents solves the gas-stati
 
 IIT Roorkee '27. Most at home in C++ and a Linux terminal, optimizing the path between a request and the metal.
 
-Long-term direction: quant systems and HFT infrastructure.`,
+Long-term direction: backend infrastructure and AI engineering.`,
   facts: [
     { k: "location", v: "Roorkee, India" },
     { k: "school", v: "IIT Roorkee · '27" },
     { k: "now", v: "SDE Intern @ AutoCash.ai" },
-    { k: "focus", v: "Quant systems · HFT infra" },
+    { k: "focus", v: "Backend infra · AI systems" },
   ],
 } as const;
 
@@ -66,6 +66,8 @@ export type Project = {
   stats: Stat[];
   tags: string[];
   featured: boolean;
+  /** Short award line, shown as a badge on the card. */
+  award?: string;
 };
 
 export const projects: Project[] = [
@@ -83,7 +85,7 @@ export const projects: Project[] = [
       { label: "p99 Latency", value: "2.3 µs" },
       { label: "Test assertions", value: "165 / 15 scenarios" },
     ],
-    tags: ["C++", "Concurrency", "HFT", "Order Book"],
+    tags: ["C++", "Concurrency", "Low Latency", "Order Book"],
     featured: true,
   },
   {
@@ -145,23 +147,7 @@ export const projects: Project[] = [
     ],
     tags: ["Python", "Django", "DRF", "Geospatial", "Optimization"],
     featured: true,
-  },
-  {
-    id: "mile-marker",
-    name: "Mile Marker",
-    subtitle: "FMCSA Hours-of-Service Trip Planner",
-    lang: "Python",
-    accent: "--amber",
-    github: "https://github.com/shubh-garg18/mile-marker",
-    description:
-      "Routes a truck trip and simulates it against the hours-of-service limits in 49 CFR Part 395, returning every regulation-forced stop and a filled daily log sheet. Pure-Python compliance engine with no framework dependency, checked by a 200-trip randomized property test; React/TypeScript frontend.",
-    stats: [
-      { label: "Tests", value: "146 passing" },
-      { label: "Property tests", value: "200-trip randomized" },
-      { label: "Stack", value: "Django + React/TS" },
-    ],
-    tags: ["Python", "Django", "React", "TypeScript"],
-    featured: false,
+    award: "1st place · Spotter AI Hackathon 2026",
   },
   {
     id: "credit-card-analysis",
@@ -178,6 +164,41 @@ export const projects: Project[] = [
   },
 ];
 
+// ------------------------------------------------------------
+// Vibe-coded public project — shipped with an AI agent doing the
+// typing. Called what it is; the engineering claims are still
+// checkable in the repo.
+// ------------------------------------------------------------
+export type VibeProject = {
+  name: string;
+  subtitle: string;
+  github: string;
+  accent: AccentVar;
+  /** What it does, for someone who has never seen it. */
+  description: string;
+  /** How it was built — the honest part. */
+  note: string;
+  stats: Stat[];
+  tags: string[];
+};
+
+export const vibeCoded: VibeProject = {
+  name: "passbook",
+  subtitle: "Self-Hosted Bank-Statement Ledger",
+  github: "https://github.com/shubh-garg18/passbook",
+  accent: "--mint",
+  description:
+    "Turns weekly bank statements into a categorised, self-hosted Firefly III ledger that separates spending from movement — money you shift into your own savings, and refunds coming back, stop counting as money gone. Reads Canara, SBI and Union Bank exports including password-protected PDFs, and you name a payee once for the name to stick on every row before and after. Runs entirely on one machine: no account, no upload, no monthly fee.",
+  note:
+    "Written with Claude Code doing the typing — specified, reviewed and shipped by me. The constraints are the interesting part: money is never a float anywhere including the database, the same row cannot be stored twice because of the shape of the table rather than a check, and restores are drilled rather than assumed.",
+  stats: [
+    { label: "Test files", value: "36" },
+    { label: "Banks parsed", value: "3" },
+    { label: "Stack", value: "Python · TS · PG" },
+  ],
+  tags: ["Python", "PostgreSQL", "Docker", "TypeScript", "Firefly III"],
+};
+
 export type Experience = {
   company: string;
   role: string;
@@ -192,12 +213,12 @@ export const experience: Experience[] = [
     role: "Software Development Engineer Intern",
     period: "Jan 2026 – Present",
     bullets: [
-      "Extended FastAPI/SQLAlchemy audit system with INSERT/CREATE logging paths and FK-to-name resolution; per-mutation actor + UTC timestamp stored in JSONB.",
-      "Rolled out audit logging across 11 REST routers and 11 data models — 31 update and 20 insert call-sites covered.",
+      "Extended the FastAPI/SQLAlchemy audit system with INSERT/CREATE logging paths and FK-to-name resolution — per-mutation actor and UTC timestamp in JSONB — and rolled it out across 11 REST routers and 11 data models, covering 31 update and 20 insert call-sites.",
+      "Built Windmill scripts that pull PSSI lockbox, invoice, and settlement data from S3 into the database.",
       "Designed and executed GraphQL-to-REST migration: 56 frontend operations (17 queries, 35 mutations), 12 files, +1,852/−1,249 lines.",
       "Implemented multi-select liquidity-pool filtering across 9 backend files spanning chart-aggregation, transaction, and forecast endpoints.",
     ],
-    tags: ["FastAPI", "SQLAlchemy", "PostgreSQL", "GraphQL", "REST"],
+    tags: ["FastAPI", "SQLAlchemy", "PostgreSQL", "Windmill", "S3", "GraphQL"],
   },
 ];
 
@@ -257,12 +278,12 @@ export const profile: { k: string; v: string; c: AccentVar }[] = [
   { k: "mux", v: "tmux + i3", c: "--mint" },
   { k: "langs", v: "C++ · Python · TS", c: "--coral" },
   { k: "now", v: "SDE Intern @ AutoCash.ai", c: "--amber" },
-  { k: "focus", v: "quant systems · HFT", c: "--indigo" },
+  { k: "focus", v: "backend infra · AI systems", c: "--indigo" },
 ];
 
 
 export type Achievement = {
-  /** Emoji, or a logo key resolved in Achievements.tsx (e.g. "wq-brain"). */
+  /** Emoji shown as the card glyph. */
   icon: string;
   title: string;
   detail: string;
@@ -276,10 +297,11 @@ export const achievements: Achievement[] = [
     detail: "1000+ participants, national-level competitive coding contest",
   },
   {
-    icon: "wq-brain",
-    title: "WorldQuant BRAIN Consultant",
+    icon: "🥇",
+    title: "1st Place · Spotter AI Hackathon",
     detail:
-      "Aug–Nov 2024 · designed and backtested predictive alpha models on global financial market data",
+      "Aug 2026 · first among all remote submissions, for RoadCents (see projects) — a cost-optimal fuel-routing backend",
+    link: "https://github.com/shubh-garg18/roadcents",
   },
   {
     icon: "⚡",
@@ -293,17 +315,13 @@ export const achievements: Achievement[] = [
     detail: `Handle: ${personal.leetcodeHandle}`,
     link: personal.leetcode,
   },
-  {
-    icon: "🎓",
-    title: "JEE Advanced AIR 8160",
-    detail: "JEE Mains AIR 6058",
-  },
 ];
 
 export const nav = [
   { id: "about", label: "about" },
   { id: "experience", label: "experience" },
   { id: "projects", label: "projects" },
+  { id: "vibe-coded", label: "vibe" },
   { id: "skills", label: "skills" },
   { id: "stats", label: "stats" },
   { id: "achievements", label: "awards" },

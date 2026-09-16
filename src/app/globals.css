@@ -435,6 +435,18 @@ h1, h2, h3, h4 {
   animation: hero-reveal 0.45s ease 0.95s backwards;
 }
 
+/* The bitwise mark is artwork drawn on a dark plate — its glow halo reads as
+   a smudge on the light scheme, so paper gets a dark disc back behind it.
+   Disc geometry matches the ring in public/logo-bitwise.png (292x277). */
+[data-theme="paper"] .logo-mark {
+  background: radial-gradient(
+    circle at 50% 51%,
+    #14131a 0 46%,
+    color-mix(in srgb, #14131a 55%, transparent) 49%,
+    transparent 53%
+  );
+}
+
 /* phosphor glow — a faint monitor-bloom on key text; dark schemes only
    (on paper it just reads as blur) */
 .text-glow {

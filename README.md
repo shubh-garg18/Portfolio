@@ -1,73 +1,112 @@
 # bitwise · portfolio
 
-Personal portfolio for **Shubh Garg** — backend / low-latency systems engineer, IIT Roorkee '27.
-Single-page site riced like a Linux workstation: boot log, tmux/i3-style status bar,
-neovim statusline, vim keyboard nav, order-book hero, neofetch about card, switchable
-colorschemes.
+My personal site. Shubh Garg, backend engineer, IIT Roorkee '27.
 
-→ Live: [Portfolio](https://bitwise-rouge.vercel.app/)
+Live at **https://bitwise-rouge.vercel.app**
+
+It's one page, styled after my actual Linux setup. Boot log on first load, a
+tmux-style status bar at the top, a neovim statusline as the footer, and vim keys
+that actually move you around the page.
 
 ## Stack
 
-- **Next.js 16** (App Router, Turbopack) · **React 19** · **TypeScript**
-- **Tailwind CSS v4** + CSS custom-property design tokens
-- **framer-motion** via `LazyMotion` (`m` components, strict) with
-  `MotionConfig reducedMotion="user"`
-- **Vercel Analytics + Speed Insights**
-- Fonts: IBM Plex Mono + IBM Plex Sans via `next/font` (self-hosted)
+- Next.js 16 (App Router, Turbopack), React 19, TypeScript
+- Tailwind v4, with the whole colour system as CSS custom properties
+- framer-motion behind `LazyMotion` (`m` components, strict mode)
+- Vercel Analytics and Speed Insights
+- IBM Plex Mono and Sans, self-hosted through `next/font`
 
-## The rice is functional, not cosmetic
+## Keyboard
 
-- `j` / `k` / `gg` / `G` / `1–7` — vim/i3 keyboard navigation (instant, unanimated)
-- `:` — command line: `:projects`, `:resume`, `:cf`, `:theme gruvbox`, `:help`, `:q`
-- `?` — which-key style keymap panel
-- Colorschemes: `workstation` (default) · `paper` (light) · `gruvbox` · `catppuccin` ·
-  `nord` · `rose-pine` — token blocks in `globals.css`, all WCAG AA validated
-- The statusline is real: mode follows the command palette, showcmd echoes actual
-  keystrokes, the latency cell is the visitor's measured TTFB, the commit hash is the
-  deployed build (`VERCEL_GIT_COMMIT_SHA`)
-- The neofetch card is real: kernel = Next.js version, uptime = days since first
-  deploy, pkgs = dependency count (all from `package.json` at build)
-- Boot screen: once per session, skippable, ~1.4s, true build facts
+| key | does |
+| --- | --- |
+| `j` / `k` | next / previous section |
+| `gg` / `G` | top / bottom |
+| `1`–`8` | jump straight to a section |
+| `:` | command line |
+| `?` | show the keymap |
 
-## Structure
+Commands worth knowing: `:projects`, `:resume`, `:cf`, `:theme gruvbox`, `:crt`,
+`:help`, `:q`.
+
+Motions are instant. Only `:` commands scroll smoothly, which is the behaviour I
+wanted from a keyboard nav that's meant to feel like an editor.
+
+## Colourschemes
+
+workstation (default), paper (light), gruvbox, catppuccin, nord, rose-pine,
+tokyonight, kanagawa, everforest.
+
+Each is a block of CSS variables in `globals.css`, switched by a `data-theme`
+attribute on `<html>`. Every text colour holds 4.5:1 against both the page
+background and the panel background, so adding a scheme means checking contrast
+before it ships. The picker in the header and `:theme <name>` both write through
+`setTheme()` in `lib/theme.ts`, which is the only place that touches the
+attribute.
+
+## Real numbers
+
+It felt wrong to put invented stats on a page about systems work, so none of
+these are decoration:
+
+- The latency cell in the footer is your own TTFB, read off the Navigation
+  Timing API.
+- The commit hash beside it is whatever `VERCEL_GIT_COMMIT_SHA` was at build.
+- The neofetch card gets its kernel, uptime and package count from
+  `package.json` and the first deploy date.
+- The order book is labelled `sim`, because that's what it is. The throughput
+  and p99 figures printed on it are TradeForge's measured benchmarks.
+
+## Codeforces section
+
+`CPStats` is a server component with hourly revalidation. It calls the Codeforces
+API at build and revalidate time, draws the rating history as a braille
+sparkline, and bakes the result into the static HTML. No client fetch, no loading
+skeleton. If the API is down it falls back to the rating pinned in `content.ts`.
+
+LeetCode has no public rating API worth depending on, so that number is static
+and linked instead.
+
+## Layout
 
 ```
 src/
-├── app/                 layout (fonts, metadata), page (JSON-LD), globals.css (schemes),
+├── app/                 layout (fonts, metadata), page (JSON-LD), globals.css,
 │                        icon.svg, opengraph-image.tsx, robots.ts, sitemap.ts
-├── assets/              IBM Plex Mono TTFs (OFL) for OG image generation
+├── assets/              IBM Plex Mono TTFs, used to render the OG image
 ├── components/
-│   ├── MotionProvider   LazyMotion + MotionConfig (reduced motion)
-│   ├── effects/         BootSequence, VimNav (keys, command line, keymap)
-│   ├── layout/          StatusBar (scroll-spy workspaces), StatusLine (lualine footer)
+│   ├── MotionProvider   LazyMotion + MotionConfig
+│   ├── effects/         BootSequence, VimNav
+│   ├── layout/          StatusBar, StatusLine
 │   ├── sections/        Hero, OrderBook, About, Neofetch, Experience, Projects,
-│   │                    Skills, CPStats, Achievements, Contact
-│   └── ui/              icons (custom SVG set), WindowChrome, TerminalBadge,
-│                        SectionLabel, BlinkingCursor, SocialLinks, Reveal, ThemeToggle
-├── data/content.ts      single source of truth — copy, links, projects, schemes
-└── lib/utils.ts         cn(), cfTier(), sparklinePoints(), brailleSparkline()
+│   │                    VibeCoded, Skills, CPStats, Achievements, Contact
+│   └── ui/              icons, WindowChrome, TerminalBadge, SectionLabel,
+│                        BlinkingCursor, SocialLinks, Reveal, ThemeToggle,
+│                        CrtToggle
+├── data/content.ts      all copy, links and project data
+└── lib/                 theme.ts (theme + crt), utils.ts (cn, cfTier, sparklines)
+
+public/
+├── logo-bitwise.png     the bitwise mark, rendered in the hero
+└── Shubh_Garg_Resume.pdf
 ```
 
-All copy and links live in `src/data/content.ts` — edit there, not in components.
+Copy and links live in `src/data/content.ts`. Edit there rather than in the
+components.
 
-## Live data
+The logo is fixed artwork, so unlike everything else on the page it can't follow
+the theme tokens. On the light scheme it gets a dark disc behind it (`.logo-mark`
+in `globals.css`) so the glow reads as a badge instead of a smudge.
 
-`CPStats` is a **server component with hourly ISR**: it fetches the Codeforces API
-(`user.info` + `user.rating` for `Bitwise_Garg`) at build/revalidate time, renders a
-braille-dot rating sparkline + recent contests into the static HTML, and falls back to
-the pinned rating in `content.ts` if the API is down. No client fetch, no skeleton.
-LeetCode has no reliable public rating API, so that value is static + linked.
-
-## Develop
+## Running it
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
-npm run build    # production build (static + ISR for the CF fetch)
+npm run dev      # localhost:3000
+npm run build
 npm run lint
 ```
 
-## Deploy (Vercel)
+## Deploying
 
-Push to `main`. `VERCEL_GIT_COMMIT_SHA` feeds the statusline commit cell automatically.
+Push to `main` and Vercel takes it from there.
