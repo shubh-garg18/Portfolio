@@ -78,8 +78,8 @@ export async function CPStats() {
 
         {!data && (
           <div className="py-6 font-mono text-sm text-[var(--muted)]">
-            <span className="text-[var(--amber)]">!</span> live stats
-            unavailable — rating{" "}
+            <span className="text-[var(--amber)]">!</span> couldn&apos;t
+            reach Codeforces just now. Last rating I saw:{" "}
             <span className="text-[var(--mint)]">
               {personal.codeforcesRating}
             </span>{" "}

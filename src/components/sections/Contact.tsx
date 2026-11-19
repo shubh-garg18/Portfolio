@@ -11,10 +11,10 @@ export function Contact() {
       <Reveal>
         <div className="panel p-7 sm:p-10">
           <p className="font-mono text-sm text-[var(--text-2)]">
-            <span className="text-[var(--amber)]">$</span> Open to:{" "}
+            <span className="text-[var(--amber)]">$</span>{" "}
             <span className="text-[var(--text)]">
-              SDE and backend infrastructure roles, AI engineering, interesting
-              systems problems.
+              I&apos;m looking for SDE, backend and ML roles. Email is the
+              quickest way to reach me.
             </span>
           </p>
 

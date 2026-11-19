@@ -315,7 +315,7 @@ export function VimNav() {
             className="panel fixed bottom-12 left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 border-[color-mix(in_srgb,var(--amber)_45%,transparent)] px-4 py-2.5 font-mono text-[15px] text-[var(--text-2)]"
           >
             <span className="text-[var(--amber)]">tip:</span>
-            this site speaks vim —
+            you can use vim keys here.
             <kbd className="rounded border border-[var(--border-strong)] bg-[var(--inset)] px-1.5 py-0.5 text-[var(--amber)]">j</kbd>
             <kbd className="rounded border border-[var(--border-strong)] bg-[var(--inset)] px-1.5 py-0.5 text-[var(--amber)]">k</kbd>
             to move ·

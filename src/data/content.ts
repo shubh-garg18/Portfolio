@@ -14,7 +14,7 @@ export const personal = {
   siteUrl: "https://bitwise-rouge.vercel.app",
   alias: "Bitwise",
   handle: "shubh-garg18",
-  tagline: "Backend engineer. Infrastructure & AI systems. IIT Roorkee '27.",
+  tagline: "Backend and C++ systems, plus computer vision and ML. IIT Roorkee '27.",
   email: "shubh18garg82@gmail.com",
   github: "https://github.com/shubh-garg18",
   linkedin: "https://linkedin.com/in/shubh--garg",
@@ -31,172 +31,181 @@ export const personal = {
 
 // Hero typing taglines (rotate)
 export const heroTaglines = [
-  "Building systems that match 2.1M orders/sec",
-  "Redis-compatible from raw TCP up",
-  "Agentic AI frameworks from scratch",
+  "a matching engine that clears 2.1M orders a second",
+  "a Redis-compatible store, from raw sockets up",
+  "store CCTV turned into footfall numbers",
 ] as const;
 
 export const about = {
-  body: `I build things close to the metal — matching engines, in-memory stores, audit systems. Currently interning at AutoCash.ai on backend infrastructure.
+  body: `I'm in my final year at IIT Roorkee, and I like the parts of a system you only notice when they break: the matching loop, the cache, the audit log.
 
-Also reach for Django for API-shaped problems — RoadCents solves the gas-station problem end to end: an exact DP oracle, offline geocoding, and a routing API that proves its own call budget.
+I learn by building things from scratch. I wrote an order matching engine and a Redis-compatible store in C++ to find out how they really work. At AutoCash.ai I worked on the backend of a finance product, mostly the audit trail that records who changed what.
 
-IIT Roorkee '27. Most at home in C++ and a Linux terminal, optimizing the path between a request and the metal.
-
-Long-term direction: backend infrastructure and AI engineering.`,
+Lately I've been doing more computer vision and ML: turning a store's CCTV into footfall and queue numbers, and predicting which credit card customers will default. I'd rather show a number I can defend than one that just looks good.`,
   facts: [
     { k: "location", v: "Roorkee, India" },
     { k: "school", v: "IIT Roorkee · '27" },
-    { k: "now", v: "SDE Intern @ AutoCash.ai" },
-    { k: "focus", v: "Backend infra · AI systems" },
+    { k: "interned", v: "AutoCash.ai · Jan–Aug 2026" },
+    { k: "focus", v: "Backend infra · CV · ML" },
   ],
 } as const;
 
 export type Stat = { label: string; value: string };
 
+// Tabs in the projects section, in display order. The first is the default.
+export const projectGroups = ["Featured", "Hackathons", "Vibe coded"] as const;
+export type ProjectGroup = (typeof projectGroups)[number];
+
+// Every card has the same parts in the same order, so cards line up in the
+// grid. Keep points to about 50 characters (one line on desktop), stat values
+// to about 6 characters and stat labels to about 14.
 export type Project = {
   id: string;
   name: string;
   subtitle: string;
   lang: "C++" | "Python" | "TypeScript";
   accent: AccentVar;
-  github: string;
-  description: string;
-  stats: Stat[];
+  /** Left out for a private repo; the card then says so instead of linking. */
+  github?: string;
+  /**
+   * One line shown above the points, only in the tabs named here (e.g. the
+   * event and date in Hackathons). Featured cards carry none.
+   */
+  context?: Partial<Record<ProjectGroup, string>>;
+  /** Shows a trophy on the context line. */
+  won?: boolean;
+  points: [string, string, string];
+  stats: [Stat, Stat, Stat];
+  /** Four at most, so they stay on one row. */
   tags: string[];
-  featured: boolean;
-  /** Short award line, shown as a badge on the card. */
-  award?: string;
+  groups: ProjectGroup[];
 };
 
 export const projects: Project[] = [
   {
     id: "tradeforge",
     name: "TradeForge",
-    subtitle: "Order Matching Engine",
+    subtitle: "Order matching engine",
     lang: "C++",
     accent: "--coral",
     github: "https://github.com/shubh-garg18/TradeForge",
-    description:
-      "Price-time priority limit order book. Six order types (LIMIT, MARKET, IOC, FOK, STOP_LOSS, STOP_LIMIT). O(log P) insertion, O(1) intrusive-list FIFO fills, O(1) hash-indexed cancellation.",
-    stats: [
-      { label: "Throughput", value: "~2.1M orders/sec" },
-      { label: "p99 Latency", value: "2.3 µs" },
-      { label: "Test assertions", value: "165 / 15 scenarios" },
+    points: [
+      "Matches by price first, then by arrival time",
+      "Cancels any order in O(1) through an ID index",
+      "Maker-taker fees, tiered by trading volume",
     ],
-    tags: ["C++", "Concurrency", "Low Latency", "Order Book"],
-    featured: true,
+    stats: [
+      { value: "2.1M", label: "orders / sec" },
+      { value: "2.3µs", label: "p99 latency" },
+      { value: "6", label: "order types" },
+    ],
+    tags: ["C++", "CMake", "Low latency", "Order book"],
+    groups: ["Featured"],
   },
   {
     id: "cachemeifucan",
     name: "CacheMeIfYouCan",
-    subtitle: "Redis-Compatible In-Memory Store",
+    subtitle: "Redis-compatible key-value store",
     lang: "C++",
     accent: "--indigo",
-    github: "https://github.com/shubh-garg18/redis-cpp",
-    description:
-      "Redis RESP wire protocol over raw TCP — redis-cli and standard clients connect unmodified. 39 commands across six data-structure families, queued transactions with optimistic locking, AOF persistence, master-replica replication, and O(1) exact-LRU eviction.",
-    stats: [
-      { label: "Throughput", value: "~225k ops/sec" },
-      { label: "Commands", value: "39 / 6 families" },
-      { label: "Concurrency", value: "Thread-per-connection" },
+    github: "https://github.com/shubh-garg18/CacheMeIfYouCan",
+    points: [
+      "Speaks the Redis protocol, so redis-cli just works",
+      "Transactions abort if a watched key changes",
+      "Replicas get a snapshot, then every later write",
     ],
-    tags: ["C++", "TCP", "RESP Protocol", "Redis"],
-    featured: true,
+    stats: [
+      { value: "225k", label: "ops/s pipelined" },
+      { value: "~50", label: "test checks" },
+      { value: "0", label: "outside libs" },
+    ],
+    tags: ["C++", "Sockets", "RESP", "Replication"],
+    groups: ["Featured"],
   },
   {
-    id: "ouroboros-mcp",
-    name: "Ouroboros MCP",
-    subtitle: "Agentic Loop Framework",
+    id: "offline-store-analytics",
+    name: "Offline Store Analytics",
+    subtitle: "Store CCTV to retail metrics",
     lang: "Python",
     accent: "--mint",
-    github: "https://github.com/shubh-garg18/ouroboros-mcp",
-    description:
-      "Agent loop with MCP tool-calling, LLM provider abstraction, stdio↔HTTP bridge via FastAPI, and OpenInference/Phoenix observability.",
-    stats: [],
-    tags: ["Python", "FastAPI", "MCP", "AI Agents", "Observability"],
-    featured: true,
-  },
-  {
-    id: "dotslash",
-    name: "DotSlash",
-    subtitle: "Real-Time Collaborative Code Editor",
-    lang: "TypeScript",
-    accent: "--indigo",
-    github: "https://github.com/shubh-garg18/DotSlash",
-    description:
-      "Browser-based multi-user editor with live cursors, in-app chat, multi-language execution, AI copilot, and collaborative whiteboard. Stateless relay server, 23-event Socket.io protocol.",
-    stats: [],
-    tags: ["TypeScript", "React", "Socket.io", "WebSockets"],
-    featured: false,
-  },
-  {
-    id: "roadcents",
-    name: "RoadCents",
-    subtitle: "Cost-Optimal Fuel Routing API",
-    lang: "Python",
-    accent: "--cyan",
-    github: "https://github.com/shubh-garg18/roadcents",
-    description:
-      "Django + DRF API solving the gas-station problem — the cheapest fuel plan, not the fewest stops — verified against an exact DP oracle. ~6,700 stations geocoded offline and corridor-matched, with at most one external routing call per request.",
-    stats: [
-      { label: "Tests", value: "110 passing" },
-      { label: "Stations indexed", value: "~6,700" },
-      { label: "Routing calls", value: "≤1 / request" },
+    github: "https://github.com/shubh-garg18/offline-store-analytics",
+    context: { Hackathons: "Purplle Tech Challenge · Jun 2026" },
+    points: [
+      "Tracks shoppers on four ceiling-camera feeds",
+      "Tells staff from shoppers with CLIP embeddings",
+      "Every metric is a SQL query, served by FastAPI",
     ],
-    tags: ["Python", "Django", "DRF", "Geospatial", "Optimization"],
-    featured: true,
-    award: "1st place · Spotter AI Hackathon 2026",
+    stats: [
+      { value: "0.87", label: "person recall" },
+      { value: "0", label: "false entries" },
+      { value: "38%", label: "revenue 6–8pm" },
+    ],
+    tags: ["Python", "YOLO11", "CLIP", "FastAPI"],
+    groups: ["Featured", "Hackathons"],
   },
   {
     id: "credit-card-analysis",
     name: "CreditCardAnalysis",
-    subtitle: "Default Prediction · ML",
+    subtitle: "Credit card default model",
     lang: "Python",
     accent: "--amber",
     github: "https://github.com/shubh-garg18/CreditCardAnalysis",
-    description:
-      "Behaviour score for credit card default prediction using LightGBM with risk-based techniques. ROC-AUC 0.83. Led as Finclub team lead.",
-    stats: [{ label: "ROC-AUC", value: "0.83" }],
-    tags: ["Python", "LightGBM", "ML", "Finance"],
-    featured: false,
+    points: [
+      "Predicts next-month default for 30K customers",
+      "Five model families; tuned gradient boosting won",
+      "Of the riskiest 20% it flags, 57% do default",
+    ],
+    stats: [
+      { value: "0.78", label: "test roc-auc" },
+      { value: "2.6×", label: "lift, top 20%" },
+      { value: "+0.046", label: "auc, encoding" },
+    ],
+    tags: ["Python", "scikit-learn", "SHAP", "Finance"],
+    groups: ["Featured"],
+  },
+  {
+    id: "roadcents",
+    name: "RoadCents",
+    subtitle: "Cheapest-fuel route planner API",
+    lang: "Python",
+    accent: "--cyan",
+    github: "https://github.com/shubh-garg18/roadcents",
+    context: { Hackathons: "1st place · Spotter AI Hackathon · Jul 2026" },
+    won: true,
+    points: [
+      "Plans the cheapest fuel stops, not the fewest",
+      "Checked against an exact dynamic-programming oracle",
+      "One routing call per request, and it proves it",
+    ],
+    stats: [
+      { value: "110", label: "tests passing" },
+      { value: "6,738", label: "stations" },
+      { value: "≤1", label: "routing call" },
+    ],
+    tags: ["Python", "Django", "DRF", "Geospatial"],
+    groups: ["Hackathons"],
+  },
+  {
+    id: "passbook",
+    name: "passbook",
+    subtitle: "Offline bank-statement ledger",
+    lang: "Python",
+    accent: "--mint",
+    context: { "Vibe coded": "Claude Code typed; I specified and reviewed" },
+    points: [
+      "Reads Canara, SBI and Union Bank PDF statements",
+      "Refunds and self-transfers don't count as spending",
+      "Money is never a float, not even in the database",
+    ],
+    stats: [
+      { value: "36", label: "test files" },
+      { value: "3", label: "banks" },
+      { value: "0", label: "uploads" },
+    ],
+    tags: ["Python", "Flask", "PostgreSQL", "Docker"],
+    groups: ["Vibe coded"],
   },
 ];
-
-// ------------------------------------------------------------
-// Vibe-coded public project — shipped with an AI agent doing the
-// typing. Called what it is; the engineering claims are still
-// checkable in the repo.
-// ------------------------------------------------------------
-export type VibeProject = {
-  name: string;
-  subtitle: string;
-  github: string;
-  accent: AccentVar;
-  /** What it does, for someone who has never seen it. */
-  description: string;
-  /** How it was built — the honest part. */
-  note: string;
-  stats: Stat[];
-  tags: string[];
-};
-
-export const vibeCoded: VibeProject = {
-  name: "passbook",
-  subtitle: "Offline Bank-Statement Ledger",
-  github: "https://github.com/shubh-garg18/passbook",
-  accent: "--mint",
-  description:
-    "A bank statement shows movement, not spending. Money you shift into your own savings leaves the account and a refund arrives in it; neither is spending, but every app counts both, so the figure you get back is inflated. passbook separates the two on your own machine and shows what it set aside so you can argue with it. It also gives payees their names back: your bank writes UPI/9876543210/PAYTM, you call it Mess once, and it is Mess on every row you already have and every one that arrives after. Reads Canara, SBI and Union Bank statements, password-protected PDFs included. Nothing is uploaded — no account, no company holding your statement, no monthly fee.",
-  note:
-    "Written with Claude Code doing the typing, specified and reviewed by me. The constraints are the part worth reading: money is never a float anywhere, including in the database; the same row cannot be stored twice because that is the shape of the table rather than a check something could skip; and it reconciles against your statements and reports unverified rather than showing a tick it has not earned.",
-  stats: [
-    { label: "Test files", value: "36" },
-    { label: "Banks read", value: "3" },
-    { label: "Uploads", value: "0 (offline)" },
-  ],
-  tags: ["Python", "Flask", "PostgreSQL", "Docker", "TypeScript"],
-};
 
 export type Experience = {
   company: string;
@@ -210,34 +219,48 @@ export const experience: Experience[] = [
   {
     company: "AutoCash.ai",
     role: "Software Development Engineer Intern",
-    period: "Jan 2026 – Present",
+    period: "Jan 2026 – Aug 2026",
     bullets: [
-      "Extended the FastAPI/SQLAlchemy audit system with INSERT/CREATE logging paths and FK-to-name resolution — per-mutation actor and UTC timestamp in JSONB — and rolled it out across 11 REST routers and 11 data models, covering 31 update and 20 insert call-sites.",
-      "Built Windmill scripts that pull PSSI lockbox, invoice, and settlement data from S3 into the database.",
-      "Designed and executed GraphQL-to-REST migration: 56 frontend operations (17 queries, 35 mutations), 12 files, +1,852/−1,249 lines.",
-      "Implemented multi-select liquidity-pool filtering across 9 backend files spanning chart-aggregation, transaction, and forecast endpoints.",
+      "Extended the FastAPI and SQLAlchemy audit trail so every change in a financial workflow records who made it, when, and what changed. Rolled it out across 11 routers and 11 models.",
+      "Wrote Windmill scripts that turn a client's lockbox and settlement files on S3 into invoice and payment rows.",
+      "Built per-user display settings: how amounts and dates are formatted, and how signed amounts are shown.",
     ],
-    tags: ["FastAPI", "SQLAlchemy", "PostgreSQL", "Windmill", "GraphQL"],
+    tags: ["FastAPI", "SQLAlchemy", "PostgreSQL", "Windmill"],
   },
 ];
 
 export type SkillCategory = { label: string; items: string[] };
 
 export const skills: SkillCategory[] = [
-  { label: "Languages", items: ["C++", "Python", "TypeScript"] },
-  {
-    label: "Backend",
-    items: ["FastAPI", "Django", "Node.js", "Express.js", "REST", "WebSockets"],
-  },
+  { label: "Languages", items: ["C++", "Python", "SQL"] },
   {
     label: "Systems",
-    items: ["Multithreading", "TCP Sockets", "RESP Protocol", "Event-Driven Arch"],
+    items: [
+      "Multithreading",
+      "TCP Sockets",
+      "RESP Protocol",
+      "Replication",
+      "Low-Latency Design",
+    ],
   },
-  { label: "Databases", items: ["PostgreSQL", "MySQL", "MongoDB", "Redis"] },
-  { label: "Tools", items: ["Git", "Docker", "Linux", "CMake"] },
   {
-    label: "CS Core",
-    items: ["DSA", "Operating Systems", "DBMS", "Computer Networks", "OOP"],
+    label: "Machine Learning",
+    items: [
+      "scikit-learn",
+      "LightGBM",
+      "Gradient Boosting",
+      "SHAP",
+      "Imbalanced Classification",
+    ],
+  },
+  {
+    label: "Computer Vision",
+    items: ["YOLO11", "ByteTrack", "CLIP", "OpenCV"],
+  },
+  { label: "Data", items: ["PostgreSQL", "SQLite", "Redis"] },
+  {
+    label: "Backend & Tools",
+    items: ["FastAPI", "SQLAlchemy", "Docker", "CMake"],
   },
 ];
 
@@ -251,11 +274,11 @@ export const langAccent: Record<string, AccentVar> = {
 // per-category accent for the skills grid headers
 export const categoryAccent: Record<string, AccentVar> = {
   Languages: "--amber",
-  Backend: "--indigo",
   Systems: "--cyan",
-  Databases: "--mint",
-  Tools: "--coral",
-  "CS Core": "--amber",
+  "Machine Learning": "--indigo",
+  "Computer Vision": "--coral",
+  Data: "--mint",
+  "Backend & Tools": "--amber",
 };
 
 // neovim-style statusline / system identity
@@ -275,9 +298,9 @@ export const profile: { k: string; v: string; c: AccentVar }[] = [
   { k: "role", v: "Backend · Low-latency", c: "--amber" },
   { k: "editor", v: "neovim", c: "--mint" },
   { k: "mux", v: "tmux + i3", c: "--mint" },
-  { k: "langs", v: "C++ · Python · TS", c: "--coral" },
-  { k: "now", v: "SDE Intern @ AutoCash.ai", c: "--amber" },
-  { k: "focus", v: "backend infra · AI systems", c: "--indigo" },
+  { k: "langs", v: "C++ · Python · SQL", c: "--coral" },
+  { k: "intern", v: "AutoCash.ai · 2026", c: "--amber" },
+  { k: "focus", v: "backend · CV · ML", c: "--indigo" },
 ];
 
 
@@ -293,25 +316,25 @@ export const achievements: Achievement[] = [
   {
     icon: "🏆",
     title: "Top 50 · InMobi Codies 2026",
-    detail: "1000+ participants, national-level competitive coding contest",
+    detail: "Jun 2026 · top 50 out of 1,000+ people in a national coding contest",
   },
   {
     icon: "🥇",
     title: "1st Place · Spotter AI Hackathon",
     detail:
-      "Aug 2026 · first among all remote submissions, for RoadCents (see projects) — a cost-optimal fuel-routing backend",
+      "Jul 2026 · first of all remote entries, for RoadCents, a cheapest-fuel route planner",
     link: "https://github.com/shubh-garg18/roadcents",
   },
   {
     icon: "⚡",
     title: `Codeforces ${personal.codeforcesRating}`,
-    detail: `Handle: ${personal.codeforcesHandle}`,
+    detail: `Expert · ${personal.codeforcesHandle}`,
     link: personal.codeforces,
   },
   {
     icon: "🧩",
     title: `LeetCode ${personal.leetcodeRating}`,
-    detail: `Handle: ${personal.leetcodeHandle}`,
+    detail: `Knight · ${personal.leetcodeHandle}`,
     link: personal.leetcode,
   },
 ];
@@ -320,7 +343,6 @@ export const nav = [
   { id: "about", label: "about" },
   { id: "experience", label: "experience" },
   { id: "projects", label: "projects" },
-  { id: "vibe-coded", label: "vibe" },
   { id: "skills", label: "skills" },
   { id: "stats", label: "stats" },
   { id: "achievements", label: "awards" },

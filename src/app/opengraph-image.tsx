@@ -3,7 +3,7 @@ import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { personal } from "@/data/content";
 
-export const alt = `${personal.name} — backend engineer, infrastructure and AI systems`;
+export const alt = `${personal.name}: backend and C++ systems, plus CV and ML`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -41,7 +41,7 @@ const CHIPS: [string, string][] = [
   ["postgres", C.amber],
   ["redis", C.mint],
   ["linux", C.cyan],
-  ["mcp", C.indigo],
+  ["sklearn", C.indigo],
 ];
 
 function BookRow({ price, pct, side }: { price: string; pct: number; side: "ask" | "bid" }) {
@@ -178,7 +178,7 @@ export default async function Image() {
                   color: C.muted,
                 }}
               >
-                IIT Roorkee &#39;27 · backend infra · agentic AI
+                IIT Roorkee &#39;27 · backend infra · CV · ML
               </div>
               <div style={{ display: "flex", gap: 12, marginTop: 34 }}>
                 {CHIPS.map(([label, color]) => (

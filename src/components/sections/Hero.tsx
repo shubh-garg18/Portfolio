@@ -19,7 +19,7 @@ const CHIPS: { l: string; a: string }[] = [
   { l: "fastapi", a: "--indigo" },
   { l: "postgres", a: "--amber" },
   { l: "linux", a: "--cyan" },
-  { l: "mcp", a: "--mint" },
+  { l: "sklearn", a: "--mint" },
 ];
 
 export function Hero() {
@@ -99,8 +99,7 @@ export function Hero() {
             </div>
 
             <p className="mt-4 text-[15px] text-[var(--text-2)]">
-              Backend Engineer · Infrastructure &amp; AI Systems · IIT Roorkee
-              &apos;27
+              Backend and C++ systems, plus CV and ML · IIT Roorkee &apos;27
             </p>
 
             {/* tagline rotator */}
@@ -146,7 +145,7 @@ export function Hero() {
                   size={15}
                   className="transition-transform group-hover:translate-x-0.5"
                 />
-                view work
+                projects
               </a>
               <a
                 href={personal.resumePdf}
